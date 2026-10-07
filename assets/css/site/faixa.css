@@ -1,0 +1,8 @@
+/* Faixa de palavras passando (marquee), logo depois do hero, em azul petróleo. */
+.faixa{background:var(--petrol);color:var(--cream);overflow:hidden;padding-block:var(--sp-4)}
+.faixa__trilho{display:flex;width:max-content;animation:faixa-passa 40s linear infinite}
+.faixa__grupo{display:flex;align-items:center;flex-shrink:0}
+.faixa__grupo span{font-family:var(--font-title);font-weight:300;font-size:clamp(26px,3.4vw,48px);letter-spacing:-.01em;color:var(--cream);white-space:nowrap}
+.faixa__grupo i{width:9px;height:9px;border-radius:50%;background:var(--gold);margin-inline:clamp(20px,2.6vw,40px);flex-shrink:0}
+@keyframes faixa-passa{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.faixa__trilho{animation:none}}

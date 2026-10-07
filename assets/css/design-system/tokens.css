@@ -1,0 +1,60 @@
+/* Fonte da verdade de cores, fontes, espaços e movimento do SellPrime.
+   Valores vêm do brand guideline e do PADROES.md (consolidação de 04/10/2026).
+   Cortes de @media (só estes): 640 / 900 / 1280, mobile-first, no fim do CSS. */
+
+@font-face{font-family:"Fraunces";src:url("../../fonts/fraunces.woff2?v=1") format("woff2");font-style:normal;font-weight:100 900;font-display:swap}
+@font-face{font-family:"Fraunces";src:url("../../fonts/fraunces-italic.woff2?v=1") format("woff2");font-style:italic;font-weight:100 900;font-display:swap}
+@font-face{font-family:"Inter";src:url("../../fonts/inter.woff2?v=1") format("woff2");font-style:normal;font-weight:100 900;font-display:swap}
+@font-face{font-family:"Shadows Into Light";src:url("../../fonts/shadows-into-light.woff2?v=1") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+
+:root{
+  /* Cores */
+  --petrol:#143a46;
+  --petrol-dark:#0c232b;
+  --gold:#b89b4d;            /* detalhe pontual, nunca área grande */
+  --cream:#f3f0e9;           /* fundo padrão da marca */
+  --grey:#8b9096;
+  --cream-2:color-mix(in srgb,var(--petrol) 7%,var(--cream));
+  --line:rgba(12,35,43,.14);
+
+  /* Papéis (usar estes no CSS das seções, não as cores cruas) */
+  --bg:var(--cream);
+  --bg-dark:var(--petrol);
+  --text:var(--petrol-dark);
+  --text-muted:#5d6a70;      /* cinza com contraste AA sobre creme; --grey só para detalhe */
+  --text-on-dark:var(--cream);
+  --accent:var(--gold);
+
+  /* Fontes. Cormorant (logotipo) já está desenhada dentro dos SVGs. */
+  --font-title:"Fraunces","Times New Roman",serif;   /* reta, peso 300; itálico só em ênfase */
+  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-script:"Shadows Into Light","Segoe Print",cursive;
+
+  /* Escala tipográfica fechada (9 degraus) */
+  --fs-micro:11px;
+  --fs-small:13px;
+  --fs-body:16px;
+  --fs-lead:20px;
+  --fs-h4:24px;
+  --fs-h3:clamp(30px,4vw,44px);
+  --fs-h2:clamp(40px,6vw,72px);
+  --fs-h1:clamp(44px,5.4vw,84px);
+  --fs-script:clamp(22px,2.6vw,30px);
+
+  /* Espaçamentos (8 degraus) */
+  --sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:24px;--sp-6:32px;--sp-7:48px;--sp-8:64px;
+  --sp-hero:96px;
+
+  /* Raios e sombras */
+  --radius-sm:2px;--radius-md:6px;--radius-lg:12px;--radius-pill:999px;
+  --shadow-soft:0 12px 32px rgba(12,35,43,.1);
+  --shadow-float:0 0 0 8px rgba(243,240,233,.25),12px 16px 16px rgba(12,35,43,.1);
+
+  /* Movimento */
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --mo-fast:200ms;--mo-base:400ms;--mo-slow:700ms;--mo-reveal:900ms;
+
+  --maxw:1240px;
+  --gutter:clamp(20px,4vw,48px);
+  --header-h:72px;
+}

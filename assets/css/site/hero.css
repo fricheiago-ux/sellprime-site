@@ -1,0 +1,44 @@
+.hero{position:relative;overflow-x:clip}
+.hero-pin{padding-top:calc(var(--header-h) + var(--sp-6))}
+.hero-grid{display:block}
+.hero-text{padding-bottom:var(--sp-6)}
+.hero-eyebrow{margin-bottom:var(--sp-4)}
+.hero-text .lead{margin-top:var(--sp-5);max-width:34em}
+.hero-actions{display:flex;flex-wrap:wrap;gap:var(--sp-3);margin-top:var(--sp-6)}
+
+/* celular e tablet: o texto vem primeiro; a casa fica fixa num trecho de rolagem logo abaixo */
+.hero-stage{height:150vh}
+.hero-visual{position:sticky;top:var(--header-h);height:min(calc(100svh - var(--header-h)),640px);min-height:420px;display:grid;place-items:center}
+.hero-canvas{z-index:2;position:absolute;inset:0;width:100%;height:100%;opacity:0;will-change:transform,opacity}
+.hero-canvas.on{opacity:1}
+.hero-fallback{width:min(70%,360px);aspect-ratio:300/290;height:auto;color:var(--gold);transition:opacity var(--mo-base)}
+
+/* sem animação (movimento reduzido ou sem WebGL): tudo parado, sem trecho de rolagem */
+.hero--static .hero-stage{height:auto}
+.hero--static .hero-visual{position:relative;top:auto;height:min(80svh,680px)}
+
+@media (min-width:900px){
+  .hero{height:170vh}
+  .hero-pin{position:sticky;top:0;height:100svh;min-height:600px;padding-top:var(--header-h);display:flex;align-items:center}
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:var(--sp-6);align-items:center;width:100%}
+  .hero-text{padding-bottom:0}
+  .hero-stage{height:auto}
+  .hero-visual{position:relative;top:auto;height:min(calc(100svh - var(--header-h) - var(--sp-6)),680px)}
+  .hero--static{height:auto}
+  .hero--static .hero-pin{position:relative;height:auto;min-height:0;padding-block:calc(var(--header-h) + var(--sp-7)) var(--sp-7)}
+  .hero--static .hero-visual{height:min(80svh,700px)}
+}
+
+/* grifo elegante (dourado da marca) em "ecossistema": duas linhas finas e contínuas, e uma seta à mão que nasce no topo do "e"
+   e leva ao "Para corretores de imóveis", escrito logo depois da ponta (no meio da headline, não na margem do texto) */
+.hero-text{position:relative}
+.hero-eyebrow{margin-bottom:var(--sp-4)}
+.hl{position:relative;display:inline-block;white-space:nowrap}
+.hl__sub{position:absolute;left:-1%;right:-1%;bottom:-.12em;width:102%;height:.3em;overflow:visible;pointer-events:none}
+.hl__sub path{fill:none;stroke:var(--gold);stroke-width:2.4;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:1}
+.hl__sub path+path{stroke-width:1.5;opacity:.8}
+.js .hl__sub path{stroke-dashoffset:1}
+.js .grifo-on .hl__sub path{animation:grifo-traco .9s var(--ease) forwards}
+.js .grifo-on .hl__sub path+path{animation-delay:.3s}
+@keyframes grifo-traco{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.hl__sub path{stroke-dashoffset:0!important;animation:none!important}}

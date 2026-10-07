@@ -1,0 +1,41 @@
+.planos__head{display:flex;flex-direction:column;gap:var(--sp-3);margin-bottom:var(--sp-7)}
+.planos__head .h3{max-width:18em}
+
+/* dois cartões (Free e Premium) ligados por um fio com luz correndo (modelo da seção de planos da referência Nebula) */
+.planos__trilho{position:relative}
+.planos__fio{display:none}
+.planos__grid{display:grid;grid-template-columns:1fr;gap:var(--sp-5)}
+.plano-w{position:relative}
+.plano{height:100%;display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-6) var(--sp-5);border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.55);box-shadow:var(--shadow-soft);position:relative;overflow:hidden}
+.plano__topo{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3)}
+.plano__nome{font:300 var(--fs-h3)/1.1 var(--font-title)}
+.plano__sub{color:var(--text-muted);font-size:14px}
+.plano__preco{font:300 clamp(40px,5vw,52px)/1 var(--font-title);margin-block:var(--sp-3) 0;letter-spacing:-.02em}
+.plano__itens{display:flex;flex-direction:column;gap:var(--sp-2);margin-block:var(--sp-3) var(--sp-4);flex:1}
+.plano__itens li{display:flex;gap:var(--sp-3);align-items:baseline;font-size:15px;line-height:1.45}
+.plano__itens li.nao{color:var(--text-muted)}
+.plano__itens li.nao::before{border:0;width:10px;height:2px;background:var(--text-muted);opacity:.6;transform:translateY(-3px)}
+.plano__itens li::before{content:"";flex:none;width:10px;height:6px;border-left:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(-45deg) translateY(-3px)}
+.plano .btn{align-self:stretch}
+.tag{font:600 10px/1 var(--font-body);letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border-radius:var(--radius-pill);background:var(--gold);color:var(--petrol-dark)}
+.plano--destaque{background:var(--petrol-dark);border-color:rgba(184,155,77,.45);color:var(--cream);box-shadow:0 24px 70px -24px rgba(12,35,43,.55)}
+.plano--destaque::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--gold),#e4cf8f)}
+.plano--destaque .plano__sub{color:rgba(243,240,233,.7)}
+.plano--destaque .btn{background:var(--cream);color:var(--petrol-dark)}
+
+@media (min-width:900px){
+  /* os três cartões na mesma linha; o fio com a luz dourada passa embaixo, ligado por hastes */
+  .planos__trilho{--haste:56px;padding-bottom:var(--haste);margin-top:var(--sp-5)}
+  .planos__grid{grid-template-columns:repeat(2,1fr);gap:var(--sp-7);align-items:stretch;max-width:880px;margin-inline:auto}
+  .plano-w{transition:transform .5s var(--ease);z-index:2}
+  @media (hover:hover){.plano-w:hover{transform:translateY(-8px)}}
+  .planos__fio{display:block;position:absolute;left:0;right:0;bottom:0;height:2px;transform:translateY(1px);background:linear-gradient(90deg,transparent,rgba(20,58,70,.3),transparent);overflow:hidden;z-index:1}
+  .planos__fio span{position:absolute;top:0;height:100%;width:190px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:planos-luz 3s linear infinite}
+  .plano-w::after{content:"";position:absolute;left:50%;top:100%;width:2px;height:var(--haste);margin-left:-1px;background:linear-gradient(180deg,rgba(12,35,43,.18),rgba(20,58,70,.35))}
+  .plano-w::before{content:"";position:absolute;left:50%;top:calc(100% + var(--haste));width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--cream);border:2px solid rgba(20,58,70,.55)}
+  .plano-w--meio::after{background:linear-gradient(180deg,var(--gold),rgba(20,58,70,.35))}
+  .plano-w--meio::before{width:14px;height:14px;margin:-7px 0 0 -7px;background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 0 rgba(184,155,77,.6);animation:planos-pulso 2s ease-out infinite}
+}
+@keyframes planos-luz{0%{left:-20%;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:110%;opacity:0}}
+@keyframes planos-pulso{0%{box-shadow:0 0 0 0 rgba(184,155,77,.6)}100%{box-shadow:0 0 0 16px rgba(184,155,77,0)}}
+@media (prefers-reduced-motion:reduce){.planos__fio span{animation:none;left:40%;opacity:1}.plano-w--meio::before{animation:none}.plano-w{transition:none}}

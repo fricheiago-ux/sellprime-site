@@ -1,0 +1,36 @@
+.passos{background:var(--cream)}
+.passos__head{display:flex;flex-direction:column;gap:var(--sp-3);margin-bottom:var(--sp-7)}
+/* linha do tempo: nós redondos com ícone, ligados por uma linha que se preenche quando o passo acende */
+.passos__lista{--n:64px;display:flex;flex-direction:column;gap:var(--sp-6);list-style:none}
+.passo{position:relative;display:flex;align-items:flex-start;gap:var(--sp-4)}
+.passo:not(:last-child)::before,.passo:not(:last-child)::after{content:"";position:absolute;left:calc(var(--n) / 2 - 2px);top:calc(var(--n) + 4px);bottom:calc(var(--sp-6) * -1 + 4px);width:4px;border-radius:2px}
+.passo:not(:last-child)::before{background:var(--line)}
+.passo:not(:last-child)::after{background:var(--petrol);transform-origin:center top;transform:scaleY(0);transition:transform 1.4s cubic-bezier(.33,1,.68,1)}
+.passo.is-active:not(:last-child)::after{transform:scaleY(1)}
+.passo__no{flex:none;width:var(--n);height:var(--n);border-radius:50%;border:2px solid var(--petrol);background:var(--cream);color:var(--petrol);display:flex;align-items:center;justify-content:center;transition:color 1s cubic-bezier(.33,1,.68,1),background-color 1s cubic-bezier(.33,1,.68,1),border-color 1s cubic-bezier(.33,1,.68,1)}
+.passo__no svg{width:30px;height:30px}
+.passo__txt{padding-top:var(--sp-2)}
+.passo__txt p{margin-top:var(--sp-2);color:var(--grey);font-size:15px;line-height:1.5;max-width:28em;transition:color 1s cubic-bezier(.33,1,.68,1)}
+.passo__txt h3{color:var(--grey);transition:color 1s cubic-bezier(.33,1,.68,1)}
+.passo.is-active .passo__no{background:var(--petrol);color:var(--cream);animation:passo-pop 1s cubic-bezier(.33,1,.68,1)}
+.passo.is-active .passo__txt h3{color:var(--text)}
+.passo.is-active .passo__txt p{color:var(--text-muted)}
+/* tudo concluído: os nós e as linhas viram ouro, com um segundo pulso */
+.passos__lista.is-complete .passo__no{border-color:var(--gold);background:var(--gold);color:var(--petrol-dark);animation:passo-fim 1.2s cubic-bezier(.33,1,.68,1)}
+.passos__lista.is-complete .passo::after{background:var(--gold)}
+@keyframes passo-pop{0%{scale:1}45%{scale:1.06}100%{scale:1}}
+@keyframes passo-fim{0%{scale:1}45%{scale:1.1}100%{scale:1}}
+
+@media (min-width:640px){.passos__lista{--n:72px}.passo__no svg{width:34px;height:34px}}
+@media (min-width:900px){
+  .passos__lista{flex-direction:row;gap:0}
+  .passo{flex:1 1 0;flex-direction:column;align-items:center;gap:var(--sp-5);text-align:center}
+  .passo:not(:last-child)::before,.passo:not(:last-child)::after{left:calc(50% + var(--n) / 2 + 8px);right:calc(-50% + var(--n) / 2 + 8px);top:calc(var(--n) / 2 - 2px);bottom:auto;width:auto;height:4px}
+  .passo:not(:last-child)::after{transform-origin:left center;transform:scaleX(0)}
+  .passo.is-active:not(:last-child)::after{transform:scaleX(1)}
+  .passo__txt{padding-top:0}
+  .passo__txt p{margin-inline:auto;max-width:17em}
+}
+@media (prefers-reduced-motion:reduce){
+  .passo__no,.passo__txt p,.passo__txt h3,.passo::after{transition:none!important;animation:none!important}
+}

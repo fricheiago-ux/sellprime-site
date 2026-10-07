@@ -1,0 +1,46 @@
+/* Frase em palco fixo: ao rolar, a frase vai se resumindo na vertical: sobram a logo, "foco" e "atendimento de qualidade / mais negócios
+   fechados" (Fraunces itálico dourado (a manuscrita saiu em 07/10: não está no manual)), e em seguida tudo se encaixa em UMA linha: negócios + qualidade = logo.
+   Sem JS ou com movimento reduzido: a frase inteira aparece, sem palco fixo. */
+.frase{position:relative;background:var(--cream);color:var(--cream);padding-block:var(--sp-4) 0;overflow-x:clip}
+.frase__palco{position:relative;display:flex;align-items:center;padding-block:var(--sp-8);background:linear-gradient(135deg,var(--petrol) 0%,var(--petrol-dark) 100%);border-radius:28px;overflow:hidden}
+.frase__txt,.frase__eq{font-family:var(--font-title);font-weight:300;font-size:clamp(20px,5.4vw,30px);line-height:1.12;letter-spacing:-.01em}
+.frase__txt{margin:0;max-width:100%;text-align:center;display:grid}
+/* os dois blocos de texto ficam um sobre o outro (mesma célula); um dá lugar ao outro na rolagem */
+.frase__b{grid-area:1/1;align-self:center;margin:0}
+.js .frase__b2{visibility:hidden}
+.frase--js .frase__b2{visibility:visible}
+.frase__l{display:block;white-space:nowrap}
+.frase__l[data-vazia],.frase__l[data-vazia2]{overflow:hidden}
+.frase__f,.frase__k2{display:inline-block;white-space:pre;overflow:hidden;vertical-align:top}
+.frase__k2{font-weight:300}
+.frase__k2--d{font-style:italic}
+/* as duas palavras de destaque: Fraunces itálico dourado (a manuscrita saiu em 07/10: não está no manual) */
+.frase__hl{display:inline-block;font-family:var(--font-title);font-style:italic;font-weight:400;font-size:1em;line-height:inherit;letter-spacing:-.01em;color:var(--gold);vertical-align:top;white-space:nowrap}
+.frase__eq{position:absolute;inset:0;display:none;flex-wrap:wrap;align-items:center;align-content:center;justify-content:center;column-gap:.5em;row-gap:.4em;text-align:center;pointer-events:none}
+.frase__eq-s{font-weight:300;opacity:0}
+.frase__eq-n,.frase__eq-q{opacity:0}
+.frase__eq-fim{flex-basis:100%;display:flex;align-items:center;justify-content:center;gap:.5em}
+
+.js .frase{height:120vh}
+.js .frase__palco{--ph:max(420px,min(72svh,560px));position:sticky;top:max(calc(var(--header-h) + var(--sp-3)),calc((100svh - var(--ph))/2));height:var(--ph);margin-inline:var(--sp-3);padding-block:var(--sp-6)}
+.js .frase__eq{display:flex}
+.js .frase__l{will-change:transform}
+
+@media (min-width:640px){
+  .frase__txt,.frase__eq{font-size:clamp(26px,3.6vw,44px)}
+  .frase__eq{flex-wrap:nowrap}
+  .frase__eq-fim{flex-basis:auto}
+}
+@media (min-width:900px){.js .frase{height:120vh}.js .frase__palco{--ph:max(420px,min(66svh,540px));margin-inline:var(--sp-5)}.frase__txt,.frase__eq{font-size:clamp(30px,2.9vw,46px)}}
+@media (prefers-reduced-motion:reduce){
+  .js .frase{height:auto}.js .frase__palco{position:relative;height:auto;top:auto}.js .frase__eq{display:none}
+  .js .frase__b2{visibility:visible}.frase__txt{display:block}.frase__b{margin-bottom:var(--sp-5)}
+}
+
+/* "SellPrime" escrito como a palavra do logotipo (sem a casinha), com sublinhado dourado; no fim a casinha sobe de baixo e se encaixa ao lado */
+.frase__marca{position:relative;display:inline-block;height:.9em;vertical-align:-.14em}
+.frase__marca>img:first-child{display:block;height:100%;width:auto}
+.frase__marca::after{content:"";position:absolute;left:0;right:0;bottom:-.2em;height:2px;background:var(--gold);border-radius:2px;opacity:var(--ul,1)}
+.frase__eq-logo>img:first-child{opacity:0}
+.frase__eq-logo::after{display:none}
+.frase__casa{position:absolute;left:-10%;top:-72.5%;width:46.8%;height:auto;opacity:0}

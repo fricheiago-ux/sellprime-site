@@ -1,0 +1,36 @@
+/* Página de um imóvel (exemplo ilustrativo): foto grande, ficha, descrição, galeria e chamada para anunciar. */
+.im{padding:calc(var(--header-h) + var(--sp-6)) 0 var(--sp-8)}
+.im__voltar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--sp-3);margin-bottom:var(--sp-5);font-size:14px}
+.im__voltar a{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:5px}
+.im__aviso{color:var(--text-muted);font-size:13px}
+.im__capa{margin:0;border-radius:24px;overflow:hidden;box-shadow:0 34px 60px -34px rgba(12,35,43,.55);background:var(--cream-2)}
+.im__capa img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.im__topo{display:grid;gap:var(--sp-5);margin-top:var(--sp-6)}
+.im__titulo{font:400 var(--fs-h2)/1.02 var(--font-title);font-style:italic;letter-spacing:-.02em}
+.im__local{font:500 11px/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-top:var(--sp-3)}
+.im__preco{font:400 clamp(30px,4vw,44px)/1 var(--font-title);font-style:italic}
+.im__ficha{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-4);margin:var(--sp-6) 0 0;padding:var(--sp-5) 0;border-block:1px solid var(--line)}
+.im__ficha dt{font:500 11px/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+.im__ficha dd{margin:0;font:400 28px/1 var(--font-title)}
+.im__corpo{display:grid;gap:var(--sp-6);margin-top:var(--sp-6)}
+.im__desc{font-size:var(--fs-lead);line-height:1.55;color:var(--text-muted);max-width:32em}
+.im__sub{font:500 11px/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--sp-3)}
+.im__lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--sp-3);font:400 24px/1.2 var(--font-title)}
+.im__galeria{display:grid;gap:var(--sp-4);margin-top:var(--sp-7)}
+.im__galeria img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;display:block}
+.im__cta{margin-top:var(--sp-8);padding:var(--sp-6) var(--sp-5);background:var(--cream-2);border:1px solid var(--line);border-radius:24px;display:grid;gap:var(--sp-4);align-items:center}
+.im__cta h2{font:400 var(--fs-h3)/1.05 var(--font-title);font-style:italic;letter-spacing:-.015em}
+.im__cta p{color:var(--text-muted)}
+.im__acoes{display:flex;flex-wrap:wrap;gap:var(--sp-3)}
+.im__mais{margin-top:var(--sp-8)}
+.im__mais h2{font:400 var(--fs-h3)/1.05 var(--font-title);font-style:italic;margin-bottom:var(--sp-5)}
+.im__maisgrade{display:grid;gap:var(--sp-5);list-style:none;margin:0;padding:0}
+.im__maisgrade a{display:block;text-decoration:none}
+.im__maisgrade img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;display:block;transition:transform .8s var(--ease)}
+.im__maisgrade figure{margin:0;overflow:hidden;border-radius:18px}
+.im__maisgrade b{display:block;margin-top:var(--sp-3);font:400 22px/1.1 var(--font-title);font-style:italic}
+.im__maisgrade span{font:500 11px/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted)}
+.im__nao{padding:var(--sp-8) 0;text-align:center;display:grid;gap:var(--sp-4);justify-items:center}
+@media (hover:hover){.im__maisgrade a:hover img{transform:scale(1.04)}}
+@media (min-width:640px){.im__galeria{grid-template-columns:repeat(2,1fr)}.im__ficha{grid-template-columns:repeat(4,minmax(0,1fr))}.im__maisgrade{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:900px){.im__topo{grid-template-columns:1fr auto;align-items:end}.im__corpo{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)}.im__cta{grid-template-columns:1fr auto;padding:var(--sp-7)}}

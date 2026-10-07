@@ -1,0 +1,27 @@
+.contato{background:var(--cream-2)}
+.contato__grid{display:grid;gap:var(--sp-7);grid-template-columns:1fr}
+.contato__texto{display:flex;flex-direction:column;gap:var(--sp-4)}
+.contato__texto .lead{max-width:24em}
+.form{display:flex;flex-direction:column;gap:var(--sp-4);background:var(--cream);border:1px solid var(--line);border-radius:var(--radius-lg);padding:var(--sp-5)}
+.campo{display:flex;flex-direction:column;gap:var(--sp-2);border:0;padding:0;margin:0;min-width:0}
+.campo label,.campo legend{font-size:13px;font-weight:500;color:var(--text)}
+.campo__op{font-weight:400;color:var(--text-muted)}
+.campo textarea{width:100%;padding:var(--sp-3) var(--sp-4);border:1px solid var(--line);border-radius:var(--radius-md);background:#fff;font-size:16px;resize:vertical;min-height:96px}
+.campo textarea:focus{outline:none;border-color:var(--petrol);box-shadow:0 0 0 3px rgba(184,155,77,.35)}
+.campo input[type=text],.campo input[type=tel]{width:100%;min-height:48px;padding:0 var(--sp-4);border:1px solid var(--line);border-radius:var(--radius-md);background:#fff;font-size:16px;transition:border-color var(--mo-fast),box-shadow var(--mo-fast)}
+.campo input:focus{outline:none;border-color:var(--petrol);box-shadow:0 0 0 3px rgba(184,155,77,.35)}
+.campo input[aria-invalid=true]{border-color:#9b3b2e}
+.campo__erro{min-height:0;font-size:13px;color:#9b3b2e}
+.campo--planos{flex-direction:row;flex-wrap:wrap;gap:var(--sp-2)}
+.campo--planos legend{width:100%;margin-bottom:var(--sp-2)}
+.opcao{position:relative}
+.opcao input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.opcao span{display:inline-flex;align-items:center;min-height:44px;padding:0 var(--sp-4);border:1px solid var(--line);border-radius:var(--radius-pill);font-size:14px;transition:background var(--mo-fast),color var(--mo-fast),border-color var(--mo-fast)}
+.opcao input:checked+span{background:var(--petrol-dark);color:var(--cream);border-color:var(--petrol-dark)}
+.opcao input:focus-visible+span{outline:2px solid var(--gold);outline-offset:3px}
+.form .btn{align-self:flex-start;margin-top:var(--sp-2)}
+
+@media (min-width:900px){
+  .contato__grid{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:start;gap:var(--sp-8)}
+  .form{padding:var(--sp-6)}
+}
