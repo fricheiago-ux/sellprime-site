@@ -1,17 +1,16 @@
 /* Vitrine de imóveis (página do proprietário). Dados ILUSTRATIVOS em imoveis-data.js.
    - filtros (tipo, cidade, valor, quartos, busca) refazem a lista;
-   - modo "Destaques": carrossel em que o cartão do meio cresce e os vizinhos recuam e giram um pouco; setas, arrastar, teclado;
+   - modo "Destaques": duas fileiras de cartões que passam sozinhas em sentidos opostos (param com o mouse por cima);
    - modo "Lista": índice tipográfico com pré-visualização da foto;
-   - clicar no cartão do meio (ou numa linha da lista) abre um painel que nasce da posição do cartão, com texto, ficha e fotos;
-     o botão ↗ leva à página do imóvel (imovel.html?id=...). */
+   - clicar num cartão (ou numa linha da lista) abre o popup de prévia padrão do site (previa-imovel.js),
+     que nasce da posição do cartão. Dados: base única (imoveis-base.js, lida por imoveis-data.js). */
 (()=>{
 const DADOS=window.SELLPRIME_IMOVEIS||[];
 const trilho=document.getElementById('vit-trilho');if(!DADOS.length||!trilho)return;
 const $=id=>document.getElementById(id);
 const palco=$('vit-palco'),lista=$('vit-lista'),listaw=$('vit-listaw'),prev=$('vit-prev'),pos=$('vit-pos'),vazio=$('vit-vazio'),conta=$('vf-conta'),rodape=$('vit-rodape');
-const ant=$('vit-ant'),prox=$('vit-prox'),chips=$('vf-chips');
+const chips=$('vf-chips');
 const selCidade=$('vf-cidade'),selValor=$('vf-valor'),selQuartos=$('vf-quartos'),busca=$('vf-busca');
-const modal=$('vmodal'),painel=modal.querySelector('.vmodal__painel');
 const reduzir=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 const brl=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
@@ -19,7 +18,7 @@ const curto=n=>n>=1e6?'R$ '+(n/1e6).toLocaleString('pt-BR',{maximumFractionDigit
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const faixas={'':null,a:[0,5e5],b:[5e5,1e6],c:[1e6,2e6],d:[2e6,Infinity]};
 const estado={tipo:'Todos',cidade:'',valor:'',quartos:0,busca:'',modo:'destaques'};
-let vis=[],ativo=0,arrastou=false,ultimoFoco=null;
+let vis=[],ultimoFoco=null;
 
 /* ---------- filtros ---------- */
 const tipos=['Todos',...new Set(DADOS.map(d=>d.tipo))];
@@ -45,102 +44,54 @@ function aplicar(){
   vis=filtrar();
   conta.textContent=vis.length===1?'1 imóvel':vis.length+' imóveis';
   const vz=!vis.length;vazio.hidden=!vz;palco.hidden=vz||estado.modo!=='destaques';listaw.hidden=vz||estado.modo!=='lista';rodape.hidden=false;
-  trilho.innerHTML=vis.map((d,k)=>'<li class="vcard" data-k="'+k+'"><button type="button" class="vcard__bt" aria-label="'+esc(d.nome+', '+d.cidade+'. Ver detalhes')+'">'
-    +'<span class="vcard__foto"><img src="'+esc(d.imgs[0])+'" alt="" width="1200" height="900" decoding="async" draggable="false"'+(k>4?' loading="lazy"':'')+'><span class="vcard__tipo">'+esc(d.tipo)+'</span><span class="vcard__preco">'+curto(d.preco)+'</span></span>'
-    +'<span class="vcard__cap"><b>'+esc(d.nome)+'</b><i>'+esc(d.cidade+' · '+d.bairro)+'</i></span></button></li>').join('');
+  fileiras(vis);
   lista.innerHTML=vis.map((d,k)=>'<li><button type="button" class="vlinha" data-k="'+k+'"><span class="vlinha__n">'+num(k+1)+'</span><span class="vlinha__nome">'+esc(d.nome)+'</span><span class="vlinha__preco">'+curto(d.preco)+'</span><span class="vlinha__local">'+esc(d.cidade+' · '+d.bairro+' · '+d.tipo)+'</span></button></li>').join('');
   if(vis.length)prev.innerHTML='<img src="'+esc(vis[0].imgs[0])+'" alt="" width="1200" height="900">';
-  ativo=0;trilho.scrollLeft=0;efeito();
 }
-function irPara(k,suave=true){const c=trilho.children[k];if(!c)return;trilho.scrollTo({left:c.offsetLeft+c.offsetWidth/2-trilho.clientWidth/2,behavior:suave&&!reduzir?'smooth':'auto'})}
-
-/* ---------- efeito do carrossel ---------- */
-let quadro=0;
-function efeito(){
-  quadro=0;const cs=[...trilho.children];if(!cs.length)return;
-  const cx=trilho.scrollLeft+trilho.clientWidth/2;let melhor=0,md=1e9;
-  const passo=cs[0].offsetWidth+(parseFloat(getComputedStyle(trilho).columnGap)||24);
-  cs.forEach((c,k)=>{
-    const d=(c.offsetLeft+c.offsetWidth/2-cx)/passo,a=Math.abs(d);if(a<md){md=a;melhor=k}
-    const s=1-.14*clamp(a,0,1.15),r=reduzir?0:clamp(-d*10,-14,14);
-    const bt=c.firstElementChild;bt.style.transform='perspective(1100px) rotateY('+r.toFixed(2)+'deg) scale('+s.toFixed(3)+')';
-    bt.style.opacity=(1-.35*clamp(a,0,1)).toFixed(3);bt.style.setProperty('--cap',(1-clamp(a*1.4)).toFixed(3));
+/* ---------- destaques: duas fileiras que passam sozinhas, uma para cada lado (molde da seção de depoimentos da
+   referência Spectra, pedido do Iago em 22/11/2026). Cada fileira repete os imóveis até cobrir duas telas e anda
+   em loop (CSS em vitrine-trilhas.css, velocidade constante calculada aqui). Para com o mouse por cima ou com o
+   foco do teclado; no toque, tocar no cartão abre a prévia. ---------- */
+const VEL=[52,46];/* px por segundo: a de cima um pouco mais rápida, como na referência (40 s e 45 s) */
+function cartao(d,k){return '<li class="vt__item"><button type="button" class="vt__card" data-k="'+k+'" aria-label="'+esc(d.nome+', '+d.cidade+'. Ver prévia')+'">'
+  +'<span class="vt__foto"><img src="'+esc((d.thumbs||d.imgs)[0])+'" alt="" width="800" height="600" decoding="async" loading="lazy" draggable="false"><span class="vt__tipo">'+esc(d.tipo)+'</span><span class="vt__preco">'+curto(d.preco)+'</span></span>'
+  +'<span class="vt__cap"><b>'+esc(d.nome)+'</b><i>'+esc(d.cidade+' · '+d.bairro)+'</i></span></button></li>'}
+function fileiras(lista){
+  trilho.innerHTML='';if(!lista.length)return;
+  const idx=lista.map((d,k)=>k);
+  [idx,idx.slice(Math.ceil(idx.length/2)).concat(idx.slice(0,Math.ceil(idx.length/2)))].forEach((ordem,f)=>{
+    const li=document.createElement('li');li.className='vt__fileira vt__fileira--'+(f?'dir':'esq');
+    const faixa=document.createElement('ul');faixa.className='vt__faixa';
+    let base=[];while(base.length<Math.max(8,ordem.length))base=base.concat(ordem);
+    const html=base.map(k=>cartao(lista[k],k)).join('');
+    faixa.innerHTML=html+html.replace(/<button /g,'<button tabindex="-1" aria-hidden="true" ');/* 2ª metade: cópia só visual, para o loop emendar */
+    li.appendChild(faixa);trilho.appendChild(li);
   });
-  if(melhor!==ativo||!pos.textContent){ativo=melhor}
-  cs.forEach((c,k)=>c.classList.toggle('is-ativo',k===ativo));
-  pos.textContent=num(ativo+1)+' / '+num(vis.length);
-  ant.disabled=ativo<=0;prox.disabled=ativo>=vis.length-1;
+  requestAnimationFrame(velocidade);
 }
-trilho.addEventListener('scroll',()=>{if(!quadro)quadro=requestAnimationFrame(efeito)},{passive:true});
-addEventListener('resize',()=>{efeito();if(vis.length)irPara(ativo,false)});
-ant.addEventListener('click',()=>irPara(Math.max(0,ativo-1)));
-prox.addEventListener('click',()=>irPara(Math.min(vis.length-1,ativo+1)));
-trilho.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();irPara(Math.min(vis.length-1,ativo+1))}else if(e.key==='ArrowLeft'){e.preventDefault();irPara(Math.max(0,ativo-1))}});
-
-/* arrastar com o mouse (no toque, o próprio dedo rola) */
-let drag=null;
-trilho.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;drag={x:e.clientX,s:trilho.scrollLeft};arrastou=false});
-addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x;if(Math.abs(dx)>5&&!arrastou){arrastou=true;trilho.classList.add('arrastando')}if(arrastou)trilho.scrollLeft=drag.s-dx});
-addEventListener('pointerup',()=>{if(!drag)return;drag=null;if(arrastou){trilho.classList.remove('arrastando');irPara(ativo);setTimeout(()=>{arrastou=false},0)}});
-trilho.addEventListener('click',e=>{
-  const li=e.target.closest('.vcard');if(!li||arrastou)return;const k=+li.dataset.k;
-  if(k!==ativo){irPara(k);return}
-  abrir(k,li.querySelector('.vcard__foto'));
-});
+function velocidade(){[...trilho.querySelectorAll('.vt__faixa')].forEach((u,f)=>{const meia=u.scrollWidth/2;u.style.setProperty('--dur',(meia/VEL[f]).toFixed(1)+'s')})}
+addEventListener('resize',()=>{clearTimeout(velocidade.t);velocidade.t=setTimeout(velocidade,200)});
+let ultimaOrigem=null;
+trilho.addEventListener('click',e=>{const b=e.target.closest('.vt__card');if(!b)return;ultimaOrigem=b.querySelector('.vt__foto');abrir(+b.dataset.k,ultimaOrigem)});
 
 /* ---------- modos: destaques / lista ---------- */
 document.querySelectorAll('.vit__modos button').forEach(b=>b.addEventListener('click',()=>{
   estado.modo=b.dataset.modo;document.querySelectorAll('.vit__modos button').forEach(x=>x.setAttribute('aria-pressed',x===b));
-  palco.hidden=!vis.length||estado.modo!=='destaques';listaw.hidden=!vis.length||estado.modo!=='lista';pos.hidden=estado.modo!=='destaques';
-  if(estado.modo==='destaques'){efeito();irPara(ativo,false)}
+  palco.hidden=!vis.length||estado.modo!=='destaques';listaw.hidden=!vis.length||estado.modo!=='lista';
+  if(estado.modo==='destaques')velocidade();
 }));
 function previa(k){const d=vis[k];if(!d)return;const im=prev.querySelector('img');if(im&&im.getAttribute('src')!==d.imgs[0]){im.style.opacity=0;setTimeout(()=>{im.src=d.imgs[0];im.style.opacity=1},120)}}
 lista.addEventListener('mouseover',e=>{const b=e.target.closest('.vlinha');if(b)previa(+b.dataset.k)});
 lista.addEventListener('focusin',e=>{const b=e.target.closest('.vlinha');if(b)previa(+b.dataset.k)});
 lista.addEventListener('click',e=>{const b=e.target.closest('.vlinha');if(b)abrir(+b.dataset.k,b)});
 
-/* ---------- painel de detalhes ---------- */
-function preencher(k){
-  const d=vis[k];
-  $('vm-eyebrow').textContent='Imóvel '+num(k+1)+' / '+num(vis.length);$('vm-titulo').textContent=d.nome;$('vm-desc').textContent=d.descricao;
-  $('vm-tags').innerHTML='<a class="vm__ir" id="vm-ir" href="imovel.html?id='+encodeURIComponent(d.id)+'" aria-label="Ver a página do imóvel '+esc(d.nome)+'">↗</a><span class="vm__tag">'+esc(d.cidade+' · '+d.bairro)+'</span><span class="vm__tag">'+esc(d.tipo)+'</span>';
-  $('vm-preco').textContent=brl(d.preco);
-  $('vm-destaques').innerHTML=d.destaques.map(x=>'<li>'+esc(x)+'</li>').join('');
-  const f=[['Área',d.area+' m²']];if(d.quartos)f.push(['Quartos',d.quartos]);if(d.suites)f.push(['Suítes',d.suites]);if(d.vagas)f.push(['Vagas',d.vagas]);
-  $('vm-ficha').innerHTML=f.map(([a,b])=>'<div><dt>'+a+'</dt><dd>'+b+'</dd></div>').join('');
-  $('vm-galeria').innerHTML=d.imgs.map((s,i)=>'<figure><img src="'+esc(s)+'" alt="'+esc(d.nome+', foto '+(i+1))+'" width="1200" height="900" loading="lazy" decoding="async"><figcaption>'+esc(d.nome+' · '+d.cidade)+'</figcaption></figure>').join('');
-}
+/* ---------- prévia do imóvel: popup padrão do site (previa-imovel.js), que nasce do cartão e volta para ele ---------- */
 function abrir(k,origem){
-  ultimoFoco=document.activeElement;preencher(k);
-  modal.hidden=false;document.body.style.overflow='hidden';painel.scrollTop=0;
-  const a=origem.getBoundingClientRect(),b=painel.getBoundingClientRect();
-  if(!reduzir){
-    painel.animate([{transformOrigin:'top left',transform:'translate('+(a.left-b.left)+'px,'+(a.top-b.top)+'px) scale('+(a.width/b.width)+','+(a.height/b.height)+')',opacity:.2,borderRadius:'22px'},{transformOrigin:'top left',transform:'none',opacity:1,borderRadius:'24px'}],{duration:560,easing:'cubic-bezier(.2,.7,.2,1)'});
-    modal.querySelector('.vmodal__fundo').animate([{opacity:0},{opacity:1}],{duration:400});
-    painel.querySelector('.vm').animate([{opacity:0},{opacity:0,offset:.35},{opacity:1}],{duration:560});
-  }
-  modal.dataset.k=k;modal.querySelector('.vmodal__fechar').focus({preventScroll:true});
+  const d=vis[k];if(!d||!window.SellPrimePrevia)return;
+  SellPrimePrevia.abrir(d,origem,{eyebrow:'Imóvel '+num(k+1)+' / '+num(vis.length),
+    alvo:()=>estado.modo==='destaques'?ultimaOrigem:lista.children[k]?.firstElementChild});
 }
-function fechar(){
-  if(modal.hidden)return;
-  const k=+modal.dataset.k,alvo=estado.modo==='destaques'?trilho.children[k]?.querySelector('.vcard__foto'):lista.children[k]?.firstElementChild;
-  const fim=()=>{modal.hidden=true;document.body.style.overflow='';if(ultimoFoco&&ultimoFoco.focus)ultimoFoco.focus({preventScroll:true})};
-  if(reduzir||!alvo){fim();return}
-  const a=alvo.getBoundingClientRect(),b=painel.getBoundingClientRect();
-  const anim=painel.animate([{transformOrigin:'top left',transform:'none',opacity:1},{transformOrigin:'top left',transform:'translate('+(a.left-b.left)+'px,'+(a.top-b.top)+'px) scale('+(a.width/b.width)+','+(a.height/b.height)+')',opacity:0}],{duration:420,easing:'cubic-bezier(.5,0,.3,1)',fill:'forwards'});
-  modal.querySelector('.vmodal__fundo').animate([{opacity:1},{opacity:0}],{duration:420,fill:'forwards'});
-  anim.onfinish=()=>{fim();painel.getAnimations().forEach(x=>x.cancel());modal.querySelector('.vmodal__fundo').getAnimations().forEach(x=>x.cancel())};
-}
-modal.querySelector('.vmodal__fechar').addEventListener('click',fechar);
-$('vm-cta').addEventListener('click',()=>{modal.hidden=true;document.body.style.overflow=''});
-modal.querySelector('.vmodal__fundo').addEventListener('click',fechar);
-addEventListener('keydown',e=>{
-  if(modal.hidden)return;
-  if(e.key==='Escape'){fechar();return}
-  if(e.key==='Tab'){const f=[...painel.querySelectorAll('a[href],button:not([disabled])')];if(!f.length)return;const p=f[0],u=f[f.length-1];
-    if(e.shiftKey&&document.activeElement===p){e.preventDefault();u.focus()}else if(!e.shiftKey&&document.activeElement===u){e.preventDefault();p.focus()}}
-});
 
 aplicar();
-(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(()=>{efeito();irPara(0,false)});
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(velocidade);
 })();

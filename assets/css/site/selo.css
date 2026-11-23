@@ -1,0 +1,15 @@
+/* SELO GIRATÓRIO "Imóvel prime" (um arquivo só para as duas páginas que o usam: a página do imóvel, no canto da
+   foto principal, e o mockup dessa página na seção "Cada imóvel ganha uma página própria" do proprietário).
+   Selo (estética de adesivo; 23/11, pedido do Iago: disco dourado, casinha e texto em petróleo, borda creme. Antes: disco petróleo e texto creme; preferiu estas), no canto de cima à esquerda da foto. Molde: selo giratório do
+   site do Caio. Gira o <svg> inteiro (não um elemento de dentro), e a casinha é irmã dele, então fica parada. */
+.selo{position:absolute;z-index:2;left:var(--sp-4);top:var(--sp-4);width:clamp(68px,7.5vw,92px);aspect-ratio:1;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px var(--cream),0 12px 24px -10px rgba(12,35,43,.55);rotate:-8deg}
+.selo__disco{width:100%;height:100%;display:block;animation:selo-gira 20s linear infinite;will-change:transform}
+.selo__texto{font:700 30px var(--font-body);letter-spacing:3px;fill:var(--petrol-dark)}
+.selo .selo__casa{position:absolute;left:50%;top:50%;width:30%;height:auto;aspect-ratio:auto;object-fit:contain;transform:translate(-50%,-52%)}
+@keyframes selo-gira{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.selo__disco{animation:none}}
+/* no mockup do proprietário, o selo acompanha a escala da miniatura */
+.mock__capaw{position:relative;display:block}
+.mock__capaw .selo{width:clamp(48px,5vw,60px);left:10px;top:10px;box-shadow:0 0 0 3px var(--cream),0 8px 16px -8px rgba(12,35,43,.55)}
+/* na cortina "antes e depois" do proprietário: no canto de cima à direita da foto do "depois" */
+.compara__foto--depois .selo{left:auto;right:var(--sp-3);top:var(--sp-3);width:clamp(52px,5.2vw,68px)}

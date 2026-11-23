@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Criar conta | SellPrime</title>
+<meta name="description" content="Crie sua conta gratuita na SellPrime e conheça a plataforma de inteligência e comercialização imobiliária.">
+<link rel="canonical" href="https://sellprimeimoveis.com.br/cadastro.html">
+<meta name="theme-color" content="#f3f0e9">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="SellPrime">
+<meta property="og:title" content="Criar conta na SellPrime">
+<meta property="og:description" content="Crie sua conta gratuita e conheça a plataforma.">
+<meta property="og:url" content="https://sellprimeimoveis.com.br/cadastro.html">
+<meta name="twitter:card" content="summary">
+<link rel="preload" href="assets/fonts/fraunces-italic.woff2?v=1" as="font" type="font/woff2" crossorigin>
+<!-- a mesma página serve ao corretor e ao proprietário (cadastro.html?perfil=proprietario): só a foto muda.
+     O preload da foto é escolhido aqui, antes de tudo, para não baixar a foto do outro perfil. -->
+<script>(()=>{const p=new URLSearchParams(location.search).get('perfil')==='proprietario';document.documentElement.dataset.perfil=p?'proprietario':'corretor';
+const l=document.createElement('link');l.rel='preload';l.as='image';l.fetchPriority='high';
+if(p){l.href='assets/img/imoveis/cobertura-moema-sp/fachada.webp?v=1';l.imageSrcset='assets/img/imoveis/cobertura-moema-sp/fachada-thumb.webp?v=1 800w, assets/img/imoveis/cobertura-moema-sp/fachada.webp?v=1 1800w'}
+else{l.href='assets/img/cadastro/corretor-1200.webp?v=1';l.imageSrcset='assets/img/cadastro/corretor-700.webp?v=1 700w, assets/img/cadastro/corretor-1200.webp?v=1 1200w'}
+l.imageSizes='(min-width:900px) 50vw, 100vw';document.head.appendChild(l)})()</script>
+<link rel="stylesheet" href="assets/css/design-system/tokens.css?v=5">
+<link rel="stylesheet" href="assets/css/design-system/base.css?v=5">
+<link rel="stylesheet" href="assets/css/site/cadastro.css?v=2">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body class="cad-body">
+<!-- PÁGINA DE CRIAR CONTA (pedido do Iago, 18/11/2026): metade foto, metade formulário. Foto do corretor;
+     com ?perfil=proprietario, foto de um imóvel (22/11/2026). Todo "anunciar"/"cadastre-se" do site vem para cá.
+     PROVISÓRIO: a plataforma do Pedro Paulo ainda não está ligada. Os botões só validam os campos
+     e mostram um aviso; a integração (envio do cadastro e login social) é feita por ele. -->
+<main class="cad" id="conteudo">
+
+  <div class="cad__foto">
+    <img id="cad-img" sizes="(min-width:900px) 50vw, 100vw" alt="Corretor da SellPrime com camisa polo da marca" width="1200" height="1490" fetchpriority="high" decoding="async">
+    <script>/* a foto é posta aqui (e não no HTML) para o navegador baixar só a do perfil: corretor, ou, com
+       ?perfil=proprietario, um imóvel imponente */
+    (()=>{const i=document.getElementById('cad-img');
+    if(document.documentElement.dataset.perfil==='proprietario'){
+      i.srcset='assets/img/imoveis/cobertura-moema-sp/fachada-thumb.webp?v=1 800w, assets/img/imoveis/cobertura-moema-sp/fachada.webp?v=1 1800w';
+      i.src='assets/img/imoveis/cobertura-moema-sp/fachada.webp?v=1';i.width=1800;i.height=1208;
+      i.alt='Torre residencial com terraços e jardins ao pôr do sol (imagem ilustrativa)';i.classList.add('cad__foto--imovel')}
+    else{i.srcset='assets/img/cadastro/corretor-700.webp?v=1 700w, assets/img/cadastro/corretor-1200.webp?v=1 1200w';i.src='assets/img/cadastro/corretor-1200.webp?v=1'}})()</script>
+    <noscript><img src="assets/img/cadastro/corretor-1200.webp?v=1" alt="Corretor da SellPrime com camisa polo da marca" width="1200" height="1490"></noscript>
+    <a class="cad__logo" href="index.html" aria-label="SellPrime, voltar ao site"><img src="assets/img/marca/logo-recorte-cream.svg" alt="SellPrime" width="95" height="40"></a>
+  </div>
+
+  <div class="cad__lado">
+    <div class="cad__caixa">
+      <a class="cad__voltar" href="index.html"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Voltar ao site</a>
+
+      <header class="cad__head">
+        <h1 class="h3" id="cad-titulo" data-cadastro="Crie sua conta" data-entrar="Entre na sua conta">Crie sua conta</h1>
+        <p class="cad__sub" id="cad-sub" data-cadastro="Comece gratuitamente e conheça as ferramentas da plataforma." data-entrar="Bom ter você de volta.">Comece gratuitamente e conheça as ferramentas da plataforma.</p>
+      </header>
+
+      <form class="cad__form" id="cad-form" novalidate aria-labelledby="cad-titulo">
+        <div class="campo">
+          <label for="c-email">E-mail</label>
+          <input id="c-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="voce@email.com" required>
+          <span class="campo__erro" data-erro-de="c-email" role="alert"></span>
+        </div>
+        <div class="campo">
+          <label for="c-senha">Senha</label>
+          <div class="cad__senha">
+            <input id="c-senha" name="senha" type="password" autocomplete="new-password" minlength="8" placeholder="Mínimo de 8 caracteres" required>
+            <button class="cad__olho" type="button" aria-controls="c-senha" aria-pressed="false" aria-label="Mostrar senha"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+          </div>
+          <span class="campo__erro" data-erro-de="c-senha" role="alert"></span>
+        </div>
+        <button class="btn cad__enviar" type="submit" data-cadastro="Criar conta" data-entrar="Entrar">Criar conta</button>
+      </form>
+
+      <p class="cad__ou"><span>ou</span></p>
+
+      <div class="cad__sociais">
+        <button class="cad__social" type="button" data-provedor="Google"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.2-2.1 3.5-5.1 3.5-8.7Z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24Z"/><path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.8l4-3.1Z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A11.9 11.9 0 0 0 1.3 6.6l4 3.1c.9-2.9 3.6-4.9 6.7-4.9Z"/></svg>Continuar com Google</button>
+        <button class="cad__social" type="button" data-provedor="Microsoft"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#F25022" d="M2 2h9.5v9.5H2z"/><path fill="#7FBA00" d="M12.5 2H22v9.5h-9.5z"/><path fill="#00A4EF" d="M2 12.5h9.5V22H2z"/><path fill="#FFB900" d="M12.5 12.5H22V22h-9.5z"/></svg>Continuar com Microsoft</button>
+        <button class="cad__social" type="button" data-provedor="Apple"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.7c0-2.5 2-3.7 2.1-3.8-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.8-1-2.9-4.1ZM13.9 5.2c.7-.8 1.2-2 1-3.2-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3.1 1.1.1 2.2-.6 2.9-1.4Z"/></svg>Continuar com Apple</button>
+      </div>
+
+      <p class="cad__aviso" id="cad-aviso" role="status" aria-live="polite" hidden></p>
+
+      <p class="cad__troca" data-cadastro="Já tem conta?" data-entrar="Ainda não tem conta?"><span>Já tem conta?</span> <a href="cadastro.html?modo=entrar" id="cad-troca" data-cadastro="Entrar" data-entrar="Criar conta">Entrar</a></p>
+    </div>
+  </div>
+</main>
+
+<script src="assets/js/site/cadastro.js?v=2" defer></script>
+</body>
+</html>

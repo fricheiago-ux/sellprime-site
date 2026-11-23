@@ -18,12 +18,19 @@
 <link rel="preload" href="assets/fonts/fraunces.woff2?v=1" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/fraunces-italic.woff2?v=1" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/design-system/tokens.css?v=5">
-<link rel="stylesheet" href="assets/css/design-system/base.css?v=4">
-<link rel="stylesheet" href="assets/css/site/header.css?v=2">
-<link rel="stylesheet" href="assets/css/site/vitrine.css?v=7">
+<link rel="stylesheet" href="assets/css/design-system/base.css?v=5">
+<link rel="stylesheet" href="assets/css/site/header.css?v=6">
+<link rel="stylesheet" href="assets/css/site/corredor.css?v=2">
+<link rel="stylesheet" href="assets/css/site/vitrine.css?v=9">
+<link rel="stylesheet" href="assets/css/site/previa-imovel.css?v=2">
+<link rel="stylesheet" href="assets/css/site/mapa-busca.css?v=2">
+<link rel="stylesheet" href="assets/css/site/vitrine-trilhas.css?v=1">
+<link rel="stylesheet" href="assets/css/site/compara.css?v=5">
+<link rel="stylesheet" href="assets/css/site/selo.css?v=3">
 <link rel="stylesheet" href="assets/css/site/passos.css?v=4">
-<link rel="stylesheet" href="assets/css/site/contato.css?v=3">
-<link rel="stylesheet" href="assets/css/site/footer.css?v=7">
+<link rel="stylesheet" href="assets/css/site/contato.css?v=5">
+<link rel="stylesheet" href="assets/css/site/faq.css?v=1">
+<link rel="stylesheet" href="assets/css/site/footer.css?v=11">
 <script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SellPrime","legalName":"SELL PRIME IMÓVEIS LTDA","taxID":"68.951.764/0001-04"}</script>
 </head>
@@ -35,57 +42,99 @@
 <!-- INICIO-CABECALHO -->
 <header class="site-header" id="topo-header">
   <div class="wrap site-header__in">
-    <a class="site-header__logo" href="proprietario.html" aria-label="SellPrime, início"><img src="assets/img/marca/logo-recorte-petrol.svg" alt="SellPrime" width="95" height="40"></a>
+    <a class="site-header__logo" href="index.html" aria-label="SellPrime, ir para a página inicial"><img class="logo-claro" src="assets/img/marca/logo-recorte-cream.svg" alt="SellPrime" width="95" height="40"><img class="logo-escuro" src="assets/img/marca/logo-recorte-petrol.svg" alt="" width="95" height="40"></a>
     <nav class="site-header__nav" aria-label="Principal">
-      <a href="#vitrine">Vitrine</a>
-      <a href="#como-funciona">Como funciona</a>
-      <a href="#anunciar">Anunciar</a>
+      <ul class="nav">
+        <li class="nav__grupo" data-pagina="index imovel">
+          <a class="nav__link" href="index.html">Imóveis</a>
+          <button class="nav__abre" type="button" aria-expanded="false" aria-controls="sub-imoveis" aria-label="Abrir submenu de Imóveis"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 1.5 5 5 5-5"/></svg></button>
+          <div class="sub" id="sub-imoveis"><ul>
+            <li><a href="index.html#topo"><b>Buscar imóveis</b><span>Por cidade, estado ou bairro</span></a></li>
+            <li><a href="index.html#categorias"><b>Por tipo de imóvel</b><span>Apartamentos, casas, coberturas e mais</span></a></li>
+            <li><a href="index.html#imoveis"><b>Em destaque</b><span>Imóveis escolhidos pela curadoria</span></a></li>
+          </ul></div>
+        </li>
+        <li class="nav__grupo">
+          <a class="nav__link" href="corretor.html#ecossistema">Plataforma</a>
+          <button class="nav__abre" type="button" aria-expanded="false" aria-controls="sub-plataforma" aria-label="Abrir submenu de Plataforma"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 1.5 5 5 5-5"/></svg></button>
+          <div class="sub" id="sub-plataforma"><ul>
+            <li><a href="corretor.html#ecossistema"><b>Leads</b><span>Contatos interessados chegam ao seu painel</span></a></li>
+            <li><a href="corretor.html#ecossistema"><b>Páginas de imóveis</b><span>Uma vitrine só sua, com o status de cada imóvel</span></a></li>
+            <li><a href="corretor.html#ecossistema"><b>Rede de corretores</b><span>Quem tem o imóvel conectado a quem tem o cliente</span></a></li>
+            <li><a href="corretor.html#ecossistema"><b>CRM</b><span>Cada cliente e cada etapa, sem planilhas</span></a></li>
+          </ul></div>
+        </li>
+        <li class="nav__grupo">
+          <a class="nav__link" href="index.html#quem-somos">Quem somos</a>
+          <button class="nav__abre" type="button" aria-expanded="false" aria-controls="sub-quem-somos" aria-label="Abrir submenu de Quem somos"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 1.5 5 5 5-5"/></svg></button>
+          <div class="sub" id="sub-quem-somos"><ul>
+            <li><a href="index.html#quem-somos"><b>A SellPrime</b><span>Inteligência imobiliária em um só lugar</span></a></li>
+            <li><a href="corretor.html#o-que-e"><b>Como conectamos pessoas</b><span>Proprietários, captadores, vendedores e compradores</span></a></li>
+            <li><a href="#contato" data-whatsapp data-whatsapp-msg="geral"><b>Falar com a equipe</b><span>Chame no WhatsApp</span></a></li>
+          </ul></div>
+        </li>
+        <li class="nav__grupo nav__grupo--perfil nav__grupo--cheio" data-pagina="corretor cadastro">
+          <a class="nav__link" href="corretor.html">Sou corretor</a>
+          <button class="nav__abre" type="button" aria-expanded="false" aria-controls="sub-corretor" aria-label="Abrir submenu de Sou corretor"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 1.5 5 5 5-5"/></svg></button>
+          <div class="sub sub--dir" id="sub-corretor"><ul>
+            <li><a href="corretor.html#ecossistema"><b>A plataforma</b><span>Tudo o que o corretor tem em um só lugar</span></a></li>
+            <li><a href="corretor.html#como-funciona"><b>Como funciona</b><span>O passo a passo da plataforma</span></a></li>
+            <li><a href="corretor.html#diferenciais"><b>Diferenciais</b><span>O seu dia, sem e com a SellPrime</span></a></li>
+          </ul></div>
+        </li>
+        <li class="nav__grupo nav__grupo--perfil" data-pagina="proprietario">
+          <a class="nav__link" href="proprietario.html">Sou proprietário</a>
+          <button class="nav__abre" type="button" aria-expanded="false" aria-controls="sub-proprietario" aria-label="Abrir submenu de Sou proprietário"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 1.5 5 5 5-5"/></svg></button>
+          <div class="sub sub--dir" id="sub-proprietario"><ul>
+            <li><a href="proprietario.html#vitrine"><b>Vitrine</b><span>Como o seu imóvel aparece</span></a></li>
+            <li><a href="proprietario.html#como-funciona"><b>Como funciona</b><span>Os passos até o anúncio</span></a></li>
+            <li><a href="proprietario.html#anunciar"><b>Anunciar meu imóvel</b><span>Fale com a equipe</span></a></li>
+          </ul></div>
+        </li>
+      </ul>
     </nav>
-    <div class="toggle" role="group" aria-label="Escolha seu perfil">
-      <a class="toggle__item" href="corretor.html">Sou corretor</a>
-      <a class="toggle__item is-on" href="proprietario.html" aria-current="page">Sou proprietário</a>
-    </div>
-    <a class="btn site-header__cta" href="#anunciar">Quero anunciar meu imóvel</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-painel" aria-label="Abrir menu"><span></span><span></span></button>
   </div>
 </header>
 <div class="menu-painel" id="menu-painel" hidden>
-  <div class="toggle toggle--painel" role="group" aria-label="Escolha seu perfil">
-    <a class="toggle__item" href="corretor.html">Sou corretor</a>
-    <a class="toggle__item is-on" href="proprietario.html" aria-current="page">Sou proprietário</a>
-  </div>
   <nav class="menu-painel__nav" aria-label="Principal">
-    <a href="#vitrine">Vitrine</a>
-    <a href="#como-funciona">Como funciona</a>
-    <a href="#anunciar">Anunciar</a>
+    <div class="mp" data-pagina="index imovel"><a class="mp__titulo" href="index.html">Imóveis</a><ul>
+      <li><a href="index.html#topo">Buscar imóveis</a></li><li><a href="index.html#categorias">Por tipo de imóvel</a></li><li><a href="index.html#imoveis">Em destaque</a></li>
+    </ul></div>
+    <div class="mp"><a class="mp__titulo" href="corretor.html#ecossistema">Plataforma</a><ul>
+      <li><a href="corretor.html#ecossistema">Leads</a></li><li><a href="corretor.html#ecossistema">Páginas de imóveis</a></li><li><a href="corretor.html#ecossistema">Rede de corretores</a></li><li><a href="corretor.html#ecossistema">CRM</a></li>
+    </ul></div>
+    <div class="mp"><a class="mp__titulo" href="index.html#quem-somos">Quem somos</a><ul>
+      <li><a href="index.html#quem-somos">A SellPrime</a></li><li><a href="corretor.html#o-que-e">Como conectamos pessoas</a></li><li><a href="#contato" data-whatsapp data-whatsapp-msg="geral">Falar com a equipe</a></li>
+    </ul></div>
+    <div class="mp" data-pagina="corretor cadastro"><a class="mp__titulo" href="corretor.html">Sou corretor</a><ul>
+      <li><a href="corretor.html#ecossistema">A plataforma</a></li><li><a href="corretor.html#como-funciona">Como funciona</a></li><li><a href="corretor.html#diferenciais">Diferenciais</a></li>
+    </ul></div>
+    <div class="mp" data-pagina="proprietario"><a class="mp__titulo" href="proprietario.html">Sou proprietário</a><ul>
+      <li><a href="proprietario.html#vitrine">Vitrine</a></li><li><a href="proprietario.html#como-funciona">Como funciona</a></li><li><a href="proprietario.html#anunciar">Anunciar meu imóvel</a></li>
+    </ul></div>
   </nav>
-  <a class="btn" href="#anunciar">Quero anunciar meu imóvel</a>
 </div>
 <!-- FIM-CABECALHO -->
 
 <main id="conteudo">
 
-<!-- 1. HERO: texto à esquerda, três "cartas" de imóveis à direita (copy provisória, a confirmar com os sócios) -->
-<section class="hero-p" id="topo" aria-labelledby="hero-titulo">
-  <div class="wrap hero-p__grid">
-    <div class="hero-p__txt">
-      <p class="eyebrow">Para quem tem um imóvel</p>
-      <h1 class="h1" id="hero-titulo">Seu imóvel merece uma <em>vitrine</em> à altura.</h1>
-      <p class="lead">Anuncie na SellPrime e apresente seu imóvel, com curadoria, a uma rede de corretores parceiros.</p>
-      <div class="hero-p__acoes">
-        <a class="btn" href="#anunciar">Quero anunciar meu imóvel</a>
-        <a class="hero-p__link" href="#vitrine">Ver a vitrine</a>
-      </div>
-    </div>
-    <div class="hero-p__cartas" aria-hidden="true">
-      <figure class="carta carta--1"><img src="assets/img/vitrine/casa-jardim-das-figueiras-1.webp" alt="" width="1200" height="900" decoding="async"><figcaption class="carta__chip"><b>Casa Jardim das Figueiras</b>Campinas</figcaption></figure>
-      <figure class="carta carta--2"><img src="assets/img/vitrine/cobertura-jurere-1.webp" alt="" width="1200" height="900" decoding="async"><figcaption class="carta__chip"><b>Cobertura Jurerê</b>Florianópolis</figcaption></figure>
-      <figure class="carta carta--3"><img src="assets/img/vitrine/apto-alto-da-lapa-1.webp" alt="" width="1200" height="900" decoding="async"><figcaption class="carta__chip"><b>Apartamento Alto da Lapa</b>São Paulo</figcaption></figure>
-    </div>
+<!-- 1. HERO: corredor de imóveis em movimento automático, com o título no centro (aprovado em 22/11/2026). Imagens ilustrativas. -->
+<section class="corr" id="topo" aria-labelledby="hero-titulo">
+  <div class="corr__palco" id="corr-palco" aria-hidden="true"></div>
+  <div class="corr__veu" aria-hidden="true"></div>
+  <div class="corr__txt">
+    <p class="corr__eyebrow">Para quem tem um imóvel</p>
+    <h1 class="corr__titulo" id="hero-titulo"><span class="corr__linha"><span>Imóveis que vendem</span></span><span class="corr__linha"><span><em>estão</em> aqui.</span></span></h1>
+    <p class="corr__lead">Anuncie na SellPrime e apresente seu imóvel, com curadoria, a uma rede de corretores parceiros.</p>
+    <div class="corr__acoes"><a class="btn" href="#anunciar">Quero anunciar meu imóvel</a><a class="btn btn--ghost" href="#vitrine">Ver a vitrine</a></div>
   </div>
+  <div class="corr__leg" id="corr-leg" aria-live="off"><span class="corr__num" id="corr-num"></span><span class="corr__nome" id="corr-nome"></span><span class="corr__local" id="corr-local"></span></div>
+  <span class="corr__aviso">Imagens ilustrativas</span>
+  <button class="corr__pausa" id="corr-pausa" type="button" aria-label="Pausar a animação" aria-pressed="false"><svg viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12" rx="1"/><rect x="8.5" y="1" width="3.5" height="12" rx="1"/></svg></button>
 </section>
 
-<!-- 2. VITRINE: filtros + carrossel de destaques / lista; clicar no cartão abre o painel com os detalhes -->
+<!-- 2. VITRINE: filtros + duas fileiras de destaques / lista; clicar no cartão abre o painel com os detalhes -->
 <section class="vitrine" id="vitrine" aria-labelledby="vit-titulo">
   <div class="wrap">
     <header class="vit__head reveal">
@@ -93,7 +142,6 @@
         <p class="eyebrow">Vitrine / Imóveis selecionados</p>
         <h2 class="h3" id="vit-titulo">Imóveis que merecem ser vistos.</h2>
       </div>
-      <p class="vit__sub">Dez exemplos de como o seu imóvel pode aparecer, da cidade ao campo.</p>
     </header>
     <form class="vf" id="vf" role="search" aria-label="Filtrar imóveis" onsubmit="return false">
       <div class="vf__chips" id="vf-chips" role="group" aria-label="Tipo de imóvel"></div>
@@ -106,10 +154,9 @@
       <div class="vf__rodape"><p class="vf__conta" id="vf-conta" aria-live="polite"></p><button type="button" class="vf__limpar" id="vf-limpar">Limpar filtros</button></div>
     </form>
 
-    <div class="vit__palco" id="vit-palco">
-      <button type="button" class="vit__seta vit__seta--e" id="vit-ant" aria-label="Imóvel anterior">←</button>
-      <ul class="vit__trilho" id="vit-trilho" tabindex="0" aria-label="Imóveis em destaque. Use as setas do teclado para navegar."></ul>
-      <button type="button" class="vit__seta vit__seta--d" id="vit-prox" aria-label="Próximo imóvel">→</button>
+    <!-- destaques: duas fileiras de cartões passando sozinhas, uma para cada lado (montadas por vitrine.js) -->
+    <div class="vit__palco vt" id="vit-palco">
+      <ul class="vt__fileiras" id="vit-trilho" aria-label="Imóveis em destaque. Passe o mouse para parar."></ul>
     </div>
     <div class="vit__listaw" id="vit-listaw" hidden>
       <ul class="vit__lista" id="vit-lista"></ul>
@@ -118,7 +165,7 @@
     <p class="vit__vazio" id="vit-vazio" hidden>Nenhum imóvel com esses filtros. <button type="button" id="vit-limpar2">Limpar filtros</button></p>
     <div class="vit__rodape" id="vit-rodape">
       <div class="vit__modos" role="group" aria-label="Modo de exibição"><button type="button" data-modo="destaques" aria-pressed="true">Destaques</button><span aria-hidden="true">/</span><button type="button" data-modo="lista" aria-pressed="false">Lista</button></div>
-      <p class="vit__pos" id="vit-pos" aria-hidden="true"></p>
+      <p class="vit__pos" id="vit-pos" aria-hidden="true" hidden></p>
       <p class="vit__nota">Imóveis ilustrativos, com nomes, valores e fotos de exemplo, só para mostrar como a vitrine fica.</p>
     </div>
   </div>
@@ -157,11 +204,11 @@
       <span class="mock">
         <span class="mock__barra"><i></i><i></i><i></i><span>sellprime · imóvel</span></span>
         <span class="mock__corpo">
-          <img class="mock__capa" src="assets/img/vitrine/cobertura-jurere-1.webp" alt="" width="1200" height="900" loading="lazy" decoding="async">
+          <span class="mock__capaw"><img class="mock__capa" src="assets/img/imoveis/cobertura-jurere/foto-1.webp" alt="" width="1200" height="900" loading="lazy" decoding="async"><span class="selo" aria-hidden="true"><svg class="selo__disco" viewBox="0 0 300 300"><defs><path id="selo-trilha" d="M150,150 m-112,0 a112,112 0 1,1 224,0 a112,112 0 1,1 -224,0"/></defs><text class="selo__texto"><textPath href="#selo-trilha" textLength="703.7" lengthAdjust="spacing">IMÓVEL PRIME • IMÓVEL PRIME • </textPath></text></svg><img class="selo__casa" src="assets/img/marca/logo-casa-petrol.svg" alt="" width="40" height="39"></span></span>
           <span class="mock__topo"><b>Cobertura Jurerê</b><em>R$ 4.200.000</em></span>
           <span class="mock__local">Florianópolis · Jurerê · Cobertura</span>
           <span class="mock__ficha"><span><small>Área</small>260 m²</span><span><small>Quartos</small>4</span><span><small>Suítes</small>4</span><span><small>Vagas</small>3</span></span>
-          <span class="mock__fotos"><img src="assets/img/vitrine/cobertura-jurere-2.webp" alt="" width="1200" height="900" loading="lazy" decoding="async"><img src="assets/img/vitrine/cobertura-jurere-3.webp" alt="" width="1200" height="900" loading="lazy" decoding="async"></span>
+          <span class="mock__fotos"><img src="assets/img/imoveis/cobertura-jurere/foto-2.webp" alt="" width="1200" height="900" loading="lazy" decoding="async"><span class="mock__mapa" id="mock-mapa" aria-hidden="true"></span></span>
         </span>
       </span>
     </a>
@@ -169,6 +216,33 @@
 </section>
 
 <!-- 5. ANUNCIAR (formulário por WhatsApp; campos provisórios) -->
+<!-- 4b. POR QUE A SELLPRIME: cortina de comparação (molde "Cortina de comparação" do design system, referência Nebula).
+     O mesmo imóvel: no "antes", um "print" de portal grande, com o imóvel num cartão pequeno no meio de outros, tudo
+     sem cor; no "depois", como a SellPrime apresenta. Quando a cortina aparece inteira na tela, a alça corre sozinha
+     uma vez; depois a pessoa arrasta como quiser (ou usa as setas do teclado). Imagens ilustrativas. -->
+<section class="section compara" aria-labelledby="compara-titulo">
+  <div class="wrap">
+    <header class="compara__head">
+      <p class="eyebrow">Por que a SellPrime</p>
+      <h2 class="h3" id="compara-titulo">O mesmo imóvel, apresentado como ele <em>merece</em>.</h2>
+      <p class="lead">A diferença entre passar despercebido e ser lembrado está em como o imóvel aparece.</p>
+    </header>
+    <div class="compara__cortina" id="compara">
+      <div class="compara__camada compara__antes" aria-hidden="true">
+        <div class="compara__txt"><span class="compara__tag">Antes</span><h3>Um anúncio entre tantos</h3><p>Num portal grande, o imóvel vira mais um cartão pequeno no meio de centenas, e nada faz alguém parar para olhar.</p></div>
+        <figure class="portal"><span class="portal__barra"><i></i><i></i><i></i><span></span></span><span class="portal__filtros"><span></span><span></span><span></span><span></span></span>
+          <ul class="portal__grade"><li class="portal__card"><img src="assets/img/imoveis/apto-savassi-mg/fachada-thumb.webp?v=1" alt="" width="800" height="537" loading="lazy" decoding="async"><b></b><i></i><i></i></li><li class="portal__card"><img src="assets/img/imoveis/torre-goiania-go/fachada-thumb.webp?v=1" alt="" width="800" height="537" loading="lazy" decoding="async"><b></b><i></i><i></i></li><li class="portal__card"><img src="assets/img/imoveis/apto-asa-sul-df/fachada-thumb.webp?v=1" alt="" width="800" height="537" loading="lazy" decoding="async"><b></b><i></i><i></i></li><li class="portal__card"><img src="assets/img/imoveis/casa-jardim-america-go/fachada-thumb.webp?v=1" alt="" width="800" height="537" loading="lazy" decoding="async"><b></b><i></i><i></i></li><li class="portal__card"><img src="assets/img/imoveis/apto-tatuape-sp/fachada-thumb.webp?v=1" alt="" width="800" height="537" loading="lazy" decoding="async"><b></b><i></i><i></i></li><li class="portal__card portal__card--alvo"><img src="assets/img/imoveis/predio-ipanema-rj/fachada-thumb.webp?v=1" alt="" width="800" height="537" loading="lazy" decoding="async"><b>R$ 7.200.000</b><i></i><i></i></li><li class="portal__card"><img src="assets/img/imoveis/apto-barra-ba/fachada-thumb.webp?v=1" alt="" width="800" height="537" loading="lazy" decoding="async"><b></b><i></i><i></i></li><li class="portal__card"><img src="assets/img/imoveis/casa-alphaville/foto-1-thumb.webp?v=1" alt="" width="800" height="537" loading="lazy" decoding="async"><b></b><i></i><i></i></li><li class="portal__card"><img src="assets/img/imoveis/apto-batel/foto-1-thumb.webp?v=1" alt="" width="800" height="537" loading="lazy" decoding="async"><b></b><i></i><i></i></li><li class="portal__card"><img src="assets/img/imoveis/loft-savassi/foto-1-thumb.webp?v=1" alt="" width="800" height="537" loading="lazy" decoding="async"><b></b><i></i><i></i></li><li class="portal__card"><img src="assets/img/imoveis/studio-pinheiros/foto-1-thumb.webp?v=1" alt="" width="800" height="537" loading="lazy" decoding="async"><b></b><i></i><i></i></li><li class="portal__card"><img src="assets/img/imoveis/casa-jardim-das-figueiras/foto-1-thumb.webp?v=1" alt="" width="800" height="537" loading="lazy" decoding="async"><b></b><i></i><i></i></li></ul></figure>
+      </div>
+      <div class="compara__camada compara__depois" aria-hidden="true">
+        <div class="compara__txt"><span class="compara__tag compara__tag--ouro">Com a SellPrime</span><h3>Um imóvel em destaque</h3><p>Fotos grandes e com cor, uma página só dele e a apresentação a uma rede de corretores parceiros.</p></div>
+        <figure class="compara__foto compara__foto--depois"><img src="assets/img/imoveis/predio-ipanema-rj/fachada.webp?v=1" alt="" width="1800" height="1208" loading="lazy" decoding="async"><span class="selo" aria-hidden="true"><svg class="selo__disco" viewBox="0 0 300 300"><defs><path id="selo-trilha-2" d="M150,150 m-112,0 a112,112 0 1,1 224,0 a112,112 0 1,1 -224,0"/></defs><text class="selo__texto"><textPath href="#selo-trilha-2" textLength="703.7" lengthAdjust="spacing">IMÓVEL PRIME • IMÓVEL PRIME • </textPath></text></svg><img class="selo__casa" src="assets/img/marca/logo-casa-petrol.svg" alt="" width="40" height="39"></span><figcaption><b>Frente ao mar em Ipanema</b><span>Ipanema, Rio de Janeiro · imagem ilustrativa</span></figcaption></figure>
+      </div>
+      <button class="compara__alca" id="compara-alca" type="button" role="slider" aria-label="Comparar antes e depois: arraste ou use as setas" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="Antes"></button>
+    </div>
+    </div>
+  </div>
+</section>
+
 <section class="section contato" id="anunciar" aria-labelledby="anunciar-titulo">
   <div class="wrap contato__grid">
     <div class="contato__texto reveal">
@@ -204,6 +278,51 @@
   </div>
 </section>
 
+<!-- PERGUNTAS FREQUENTES: sempre a última seção, antes do rodapé -->
+<section class="section faq" id="faq" aria-labelledby="faq-titulo">
+  <div class="wrap faq__in">
+    <div class="faq__cab">
+      <p class="eyebrow">Perguntas frequentes</p>
+      <h2 class="h3 faq__titulo" id="faq-titulo">Tire as suas <em>dúvidas</em>.</h2>
+      <p class="faq__ajuda">Não achou o que procurava? <a href="#faq" data-whatsapp data-whatsapp-msg="geral">Fale com a equipe no WhatsApp</a>.</p>
+    </div>
+    <ul class="faq__lista">
+        <li class="faq__item">
+          <h3><button class="faq__q" type="button" id="faq-q1" aria-expanded="false" aria-controls="faq-a1"><span class="faq__t">Como anuncio o meu imóvel?</span><span class="faq__ico" aria-hidden="true"></span></button></h3>
+          <div class="faq__a" id="faq-a1" role="region" aria-labelledby="faq-q1"><div><p>Preencha o formulário de anúncio com os dados do imóvel. A nossa equipe fala com você pelo WhatsApp.</p></div></div>
+        </li>
+        <li class="faq__item">
+          <h3><button class="faq__q" type="button" id="faq-q2" aria-expanded="false" aria-controls="faq-a2"><span class="faq__t">Tem custo para anunciar?</span><span class="faq__ico" aria-hidden="true"></span></button></h3>
+          <div class="faq__a" id="faq-a2" role="region" aria-labelledby="faq-q2"><div><p>Não. Anunciar o seu imóvel na SellPrime não tem custo.</p></div></div>
+        </li>
+        <li class="faq__item">
+          <h3><button class="faq__q" type="button" id="faq-q3" aria-expanded="false" aria-controls="faq-a3"><span class="faq__t">Quanto tempo leva para o imóvel aparecer?</span><span class="faq__ico" aria-hidden="true"></span></button></h3>
+          <div class="faq__a" id="faq-a3" role="region" aria-labelledby="faq-q3"><div><p>Em 1 dia útil, depois da validação dos documentos.</p></div></div>
+        </li>
+        <li class="faq__item">
+          <h3><button class="faq__q" type="button" id="faq-q4" aria-expanded="false" aria-controls="faq-a4"><span class="faq__t">Como o meu imóvel aparece?</span><span class="faq__ico" aria-hidden="true"></span></button></h3>
+          <div class="faq__a" id="faq-a4" role="region" aria-labelledby="faq-q4"><div><p>Com uma página própria, com fotos, valor e ficha do imóvel. Ele também aparece na busca da home e no mapa.</p></div></div>
+        </li>
+        <li class="faq__item">
+          <h3><button class="faq__q" type="button" id="faq-q5" aria-expanded="false" aria-controls="faq-a5"><span class="faq__t">Posso escolher o corretor?</span><span class="faq__ico" aria-hidden="true"></span></button></h3>
+          <div class="faq__a" id="faq-a5" role="region" aria-labelledby="faq-q5"><div><p>Sim. Você pode escolher o corretor que vai apresentar o seu imóvel. Os corretores parceiros da SellPrime cuidam da divulgação e do atendimento a quem se interessa.</p></div></div>
+        </li>
+        <li class="faq__item">
+          <h3><button class="faq__q" type="button" id="faq-q6" aria-expanded="false" aria-controls="faq-a6"><span class="faq__t">Consigo acompanhar o andamento?</span><span class="faq__ico" aria-hidden="true"></span></button></h3>
+          <div class="faq__a" id="faq-a6" role="region" aria-labelledby="faq-q6"><div><p>Sim, e de perto. Você acompanha cada passo da negociação em tempo real, do primeiro contato ao fechamento, e conta com o suporte do time SellPrime sempre que precisar de ajuda ou tiver uma dúvida.</p></div></div>
+        </li>
+        <li class="faq__item">
+          <h3><button class="faq__q" type="button" id="faq-q7" aria-expanded="false" aria-controls="faq-a7"><span class="faq__t">O que preciso ter à mão para anunciar?</span><span class="faq__ico" aria-hidden="true"></span></button></h3>
+          <div class="faq__a" id="faq-a7" role="region" aria-labelledby="faq-q7"><div><p>Tipo de imóvel, cidade e bairro, valor pretendido, no mínimo 8 fotos e os documentos do imóvel, para a validação.</p></div></div>
+        </li>
+        <li class="faq__item">
+          <h3><button class="faq__q" type="button" id="faq-q8" aria-expanded="false" aria-controls="faq-a8"><span class="faq__t">Posso anunciar para aluguel?</span><span class="faq__ico" aria-hidden="true"></span></button></h3>
+          <div class="faq__a" id="faq-a8" role="region" aria-labelledby="faq-q8"><div><p>Por enquanto, não. A SellPrime trabalha apenas com imóveis à venda.</p></div></div>
+        </li>
+    </ul>
+  </div>
+</section>
+
 </main>
 
 <!-- INICIO-RODAPE -->
@@ -224,7 +343,7 @@
           <li><a href="corretor.html">Início</a></li>
           <li><a href="corretor.html#ecossistema">O ecossistema</a></li>
           <li><a href="corretor.html#como-funciona">Como funciona</a></li>
-          <li><a href="corretor.html#planos">Planos</a></li>
+          <li><a href="corretor.html#diferenciais">Diferenciais</a></li>
           <li><a href="corretor.html#contato">Contato</a></li>
         </ul>
       </nav>
@@ -237,6 +356,8 @@
           <li><a href="proprietario.html#anunciar">Anunciar meu imóvel</a></li>
         </ul>
       </nav>
+      <!-- casinha dourada, última coluna à direita, alinhada ao topo das colunas (molde do rodapé do design system) -->
+      <div class="site-footer__marca" aria-hidden="true"><img src="assets/img/marca/logo-casa-cream.svg" alt="" width="290" height="280" loading="lazy" decoding="async"></div>
     </div>
     <div class="site-footer__base">
       <span>SELL PRIME IMÓVEIS LTDA · CNPJ 68.951.764/0001-04</span>
@@ -247,34 +368,20 @@
 <!-- FIM-RODAPE -->
 
 <!-- painel de detalhes do imóvel (aberto pelo JS a partir do cartão) -->
-<div class="vmodal" id="vmodal" hidden>
-  <div class="vmodal__fundo"></div>
-  <div class="vmodal__painel" role="dialog" aria-modal="true" aria-labelledby="vm-titulo">
-    <button type="button" class="vmodal__fechar" aria-label="Fechar">✕</button>
-    <div class="vm">
-      <div class="vm__info">
-        <p class="vm__eyebrow" id="vm-eyebrow"></p>
-        <h3 class="vm__titulo" id="vm-titulo"></h3>
-        <p class="vm__desc" id="vm-desc"></p>
-        <div class="vm__tags" id="vm-tags"></div>
-        <p class="vm__preco" id="vm-preco"></p>
-        <p class="vm__sub">Neste imóvel</p>
-        <ul class="vm__lista" id="vm-destaques"></ul>
-        <dl class="vm__ficha" id="vm-ficha"></dl>
-        <a class="btn vm__cta" href="#anunciar" id="vm-cta">Quero anunciar o meu</a>
-      </div>
-      <div class="vm__galeria" id="vm-galeria"></div>
-    </div>
-  </div>
-</div>
-
 <script src="assets/js/site/config.js?v=3" defer></script>
 <script src="assets/js/site/rodape.js?v=2" defer></script>
-<script src="assets/js/site/header.js?v=2" defer></script>
-<script src="assets/js/site/reveal.js?v=2" defer></script>
-<script src="assets/js/site/imoveis-data.js?v=3" defer></script>
-<script src="assets/js/site/vitrine.js?v=2" defer></script>
+<script src="assets/js/site/header.js?v=5" defer></script>
+<script src="assets/js/site/faq.js?v=1" defer></script>
+<script src="assets/js/design-system/revelar.js?v=5" defer></script>
+<script src="assets/js/site/imoveis-base.js?v=3" defer></script>
+<script src="assets/js/site/corredor.js?v=3" defer></script>
+<script src="assets/js/site/imoveis-data.js?v=6" defer></script>
+<script src="assets/js/site/mapa-busca.js?v=3" defer></script>
+<script src="assets/js/site/previa-imovel.js?v=3" defer></script>
+<script src="assets/js/site/vitrine.js?v=5" defer></script>
 <script src="assets/js/site/passos.js?v=3" defer></script>
-<script src="assets/js/site/contato.js?v=5" defer></script>
+<script src="assets/js/site/compara.js?v=2" defer></script>
+<script src="assets/js/site/pagina-mock.js?v=1" defer></script>
+<script src="assets/js/site/contato.js?v=7" defer></script>
 </body>
 </html>

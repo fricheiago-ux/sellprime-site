@@ -1,0 +1,50 @@
+/* Home, seção 2: categorias de imóveis.
+   Molde: seção de serviços de uma referência (cartões de foto que se alargam no hover), adaptado à SellPrime
+   com cartões menores (o original tinha 630px de altura; aqui 400px no computador).
+   Celular e tablet (até 899px): faixa horizontal que rola de lado com encaixe, sem o efeito de alargar (toque não tem hover).
+   Computador (900px+): 4 cartões lado a lado; o cartão sob o mouse cresce (flex 1 para 1,9) e os vizinhos encolhem. */
+
+.cats__topo{align-items:flex-end}
+.cats__meta{margin:0;max-width:22em;font-size:var(--fs-small);line-height:1.6;color:var(--text-muted)}
+
+.cats__lista{list-style:none;margin:0;padding:0 var(--gutter);display:flex;gap:var(--sp-3);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-inline:calc(var(--gutter) * -1);scroll-padding-inline:var(--gutter)}
+.cats__lista::-webkit-scrollbar{display:none}
+.cat{flex:0 0 72%;max-width:300px;scroll-snap-align:start}
+
+.cat__btn{position:relative;display:block;width:100%;height:340px;padding:0;border:0;border-radius:var(--radius-lg);overflow:hidden;background:var(--petrol);color:var(--cream);text-align:left;font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.cat__btn img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform var(--mo-slow) var(--ease)}
+.cat__btn::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,35,43,0) 30%,rgba(12,35,43,.82));pointer-events:none}
+.cat__txt{position:absolute;z-index:1;inset:auto var(--sp-5) var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-2)}
+.cat__n{font:500 var(--fs-micro)/1 var(--font-body);letter-spacing:.14em;color:rgba(243,240,233,.7)}
+.cat__nome{font:400 italic var(--fs-h4)/1.1 var(--font-title);letter-spacing:-.01em}
+.cat__desc{font-size:var(--fs-small);line-height:1.45;color:rgba(243,240,233,.82)}
+.cat__ver{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);margin-top:var(--sp-2);padding-top:var(--sp-3);border-top:1px solid rgba(243,240,233,.2);font:500 var(--fs-micro)/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase}
+.cat__disc{display:grid;place-items:center;flex:none;width:32px;height:32px;border-radius:50%;background:var(--cream);color:var(--petrol-dark)}
+.cat__disc svg{width:12px;height:12px;transition:transform var(--mo-base) var(--ease)}
+.cat__btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+@media (min-width:640px){
+  .cat{flex-basis:44%}
+}
+
+@media (min-width:900px){
+  .cats__lista{overflow:visible;margin-inline:0;padding:0;scroll-snap-type:none;height:400px}
+  .cat{flex:1 1 0;min-width:0;max-width:none;transition:flex var(--mo-slow) var(--ease)}
+  .cat__btn{height:100%}
+  .cat__desc{opacity:0;max-height:0;transition:opacity var(--mo-base) var(--ease),max-height var(--mo-base) var(--ease)}
+}
+
+@media (min-width:900px) and (hover:hover){
+  .cat:hover{flex-grow:1.9}
+  .cat:hover .cat__btn img{transform:scale(1.04)}
+  .cat:hover .cat__desc{opacity:1;max-height:4em}
+  .cat:hover .cat__disc svg{transform:translate(2px,-2px) rotate(-45deg)}
+}
+
+@media (min-width:900px) and (hover:none){
+  .cat__desc{opacity:1;max-height:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .cat,.cat__btn img,.cat__desc,.cat__disc svg{transition:none}
+}

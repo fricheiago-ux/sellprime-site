@@ -1,0 +1,66 @@
+/* Página de criar conta (cadastro.html).
+   Computador (900px+): tela dividida ao meio, foto à esquerda e formulário à direita, sem rolagem.
+   Celular: a foto vira uma faixa de 200px no topo (com o logo) e o formulário vem embaixo. */
+
+.cad-body{background:var(--cream)}
+.cad{min-height:100dvh;display:grid;grid-template-columns:1fr}
+
+.cad__foto{position:relative;height:200px;background:var(--petrol);overflow:hidden}
+.cad__foto>img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.cad__foto>img.cad__foto--imovel{object-position:50% 50%}
+.cad__foto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,35,43,.55),rgba(12,35,43,0) 45%);pointer-events:none}
+.cad__logo{position:absolute;top:var(--sp-4);left:var(--gutter);z-index:1;display:block}
+.cad__logo img{height:36px;width:auto}
+
+.cad__lado{display:flex;justify-content:center;padding:var(--sp-6) var(--gutter) var(--sp-7)}
+.cad__caixa{width:100%;max-width:400px;display:flex;flex-direction:column;gap:var(--sp-5)}
+
+.cad__voltar{display:none;align-items:center;gap:var(--sp-1);align-self:flex-start;font-size:var(--fs-small);color:var(--text-muted);text-decoration:none}
+.cad__voltar svg{width:16px;height:16px}
+
+.cad__head{display:flex;flex-direction:column;gap:var(--sp-2)}
+.cad__sub{margin:0;color:var(--text-muted)}
+
+.cad__form{display:flex;flex-direction:column;gap:var(--sp-4)}
+.campo{display:flex;flex-direction:column;gap:var(--sp-2);border:0;padding:0;margin:0;min-width:0}
+.campo label{font-size:var(--fs-small);font-weight:500;color:var(--text)}
+.campo input{width:100%;min-height:48px;padding:0 var(--sp-4);border:1px solid var(--line);border-radius:var(--radius-md);background:#fff;font:inherit;font-size:var(--fs-body);color:var(--text);transition:border-color var(--mo-fast),box-shadow var(--mo-fast)}
+.campo input:focus{outline:none;border-color:var(--petrol);box-shadow:0 0 0 3px rgba(184,155,77,.35)}
+.campo input[aria-invalid=true]{border-color:#9b3b2e}
+.campo__erro{font-size:var(--fs-small);color:#9b3b2e}
+.campo__erro:empty{display:none}
+
+.cad__senha{position:relative}
+.cad__senha input{padding-right:52px}
+.cad__olho{position:absolute;top:0;right:0;width:48px;height:48px;display:grid;place-items:center;border:0;background:transparent;color:var(--text-muted);cursor:pointer}
+.cad__olho svg{width:20px;height:20px}
+.cad__olho[aria-pressed=true]{color:var(--petrol)}
+
+.cad__enviar{width:100%;margin-top:var(--sp-1)}
+
+.cad__ou{display:flex;align-items:center;gap:var(--sp-3);margin:0;font-size:var(--fs-small);color:var(--text-muted)}
+.cad__ou::before,.cad__ou::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.cad__sociais{display:flex;flex-direction:column;gap:var(--sp-3)}
+.cad__social{display:flex;align-items:center;justify-content:center;gap:var(--sp-3);min-height:48px;padding:0 var(--sp-4);border:1px solid var(--line);border-radius:var(--radius-pill);background:#fff;color:var(--text);font:500 14px/1 var(--font-body);cursor:pointer;transition:border-color var(--mo-fast),background var(--mo-fast)}
+.cad__social svg{width:18px;height:18px;flex:none}
+.cad__social:active{background:var(--cream-2)}
+
+.cad__aviso{margin:0;padding:var(--sp-3) var(--sp-4);border-radius:var(--radius-md);background:var(--cream-2);font-size:var(--fs-small);color:var(--text)}
+.cad__troca{margin:0;font-size:var(--fs-small);color:var(--text-muted);text-align:center}
+.cad__troca a{color:var(--petrol);font-weight:500}
+
+@media (hover:hover){
+  .cad__social:hover{border-color:rgba(12,35,43,.35);background:var(--cream)}
+  .cad__voltar:hover,.cad__troca a:hover{color:var(--petrol-dark)}
+}
+
+@media (min-width:900px){
+  .cad{grid-template-columns:1fr 1fr;height:100dvh;min-height:640px}
+  .cad__foto{height:auto}
+  .cad__foto>img{object-position:50% 25%}
+  .cad__logo{top:var(--sp-6);left:var(--sp-6)}
+  .cad__logo img{height:40px}
+  .cad__lado{align-items:center;padding:var(--sp-7);overflow-y:auto}
+  .cad__voltar{display:inline-flex}
+}

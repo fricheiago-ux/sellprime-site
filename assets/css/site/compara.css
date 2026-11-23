@@ -1,0 +1,55 @@
+/* PROPRIETÁRIO, "Por que a SellPrime": cortina de comparação (molde "Cortina de comparação" do design system,
+   referência Nebula: duas camadas e uma alça; a camada "depois" aparece por clip-path). Mudou em 23/11, a pedido do
+   Iago: não acompanha mais a rolagem. Quando a cortina aparece inteira, a alça corre sozinha uma vez (compara.js);
+   depois a pessoa arrasta a alça (ou clica em qualquer ponto, ou usa as setas do teclado).
+   O mesmo imóvel nas duas camadas: no "antes", um "print" de portal grande sem cor, com o imóvel num cartão pequeno
+   no meio de outros; no "depois", grande, com cor e legenda. Celular: texto em cima e imagem embaixo em cada camada.
+   Sem JS: mostra o "depois" inteiro, sem alça. */
+.compara__head{display:grid;gap:var(--sp-3);max-width:640px;margin-bottom:var(--sp-6)}
+.compara__head em{font-style:italic}
+.compara__cortina{position:relative;height:640px;border-radius:24px;overflow:hidden;background:var(--petrol-dark);color:var(--cream);isolation:isolate}
+.compara__camada{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr;gap:var(--sp-5);padding:var(--sp-6) var(--sp-5)}
+.compara__antes{background:repeating-linear-gradient(135deg,rgba(243,240,233,.02) 0 12px,transparent 12px 24px),var(--petrol-dark)}
+.compara__depois{background:radial-gradient(80% 90% at 50% 50%,rgba(243,240,233,.128),transparent 70%),var(--petrol-dark);clip-path:inset(0 var(--fecha,100%) 0 0)}
+.compara__txt{display:grid;gap:var(--sp-3);align-content:start;max-width:420px}
+.compara__txt h3{margin:0;font:300 clamp(22px,3vw,34px)/1.15 var(--font-title);color:var(--cream)}
+.compara__txt p{margin:0;color:rgba(243,240,233,.66);font-size:var(--fs-body);line-height:1.6}
+.compara__tag{display:inline-block;width:max-content;padding:5px 12px;border-radius:999px;font:600 var(--fs-micro)/1.4 var(--font-body);background:rgba(243,240,233,.06);color:rgba(243,240,233,.66)}
+.compara__tag--ouro{background:var(--gold);color:var(--petrol-dark)}
+.compara__foto{margin:0;min-height:0;position:relative}
+/* antes: "print" de um portal grande de anúncios (genérico, sem marca), tudo sem cor; 12 cartões em 4 colunas e o
+   imóvel no meio (2ª fileira) */
+.portal{align-self:center;justify-self:center;width:min(100%,400px);margin:0;padding:8px 8px 10px;background:#ecebe8;border-radius:6px;rotate:-1.5deg;box-shadow:0 18px 34px -16px rgba(0,0,0,.65);filter:grayscale(1) contrast(.9) brightness(.92)}
+.portal__barra{display:flex;align-items:center;gap:4px;padding:4px 4px 8px}
+.portal__barra i{width:6px;height:6px;border-radius:50%;background:#c9c8c4}
+.portal__barra span{flex:1;height:10px;margin-left:6px;border-radius:999px;background:#fff}
+.portal__filtros{display:flex;gap:4px;padding:0 4px 8px}
+.portal__filtros span{height:8px;width:18%;border-radius:999px;background:#d6d5d1}
+.portal__grade{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.portal__card{display:grid;gap:3px;padding:3px 3px 5px;background:#fff;border-radius:3px}
+.portal__card img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:2px}
+.portal__card b{display:block;height:7px;width:60%;border-radius:2px;background:#bdbcb8}
+.portal__card i{display:block;height:5px;border-radius:2px;background:#dddcd8}
+.portal__card i:last-child{width:70%}
+.portal__card--alvo b{height:auto;width:auto;background:none;font:600 8px/1.2 var(--font-body);color:#555}
+/* depois: grande, com cor */
+.compara__foto--depois{border-radius:18px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
+.compara__foto--depois img{width:100%;height:100%;object-fit:cover;display:block}
+.compara__foto--depois figcaption{position:absolute;left:var(--sp-4);bottom:var(--sp-4);display:grid;gap:2px;padding:var(--sp-2) var(--sp-3);border-radius:var(--radius-md);background:var(--cream);color:var(--petrol-dark)}
+.compara__foto--depois figcaption b{font:italic 400 var(--fs-lead)/1.2 var(--font-title)}
+.compara__foto--depois figcaption span{font-size:var(--fs-micro);color:var(--text-muted)}
+/* alça: linha dourada com brilho e o círculo com setas */
+.compara__cortina{cursor:ew-resize;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.compara__alca{position:absolute;z-index:3;top:0;bottom:0;left:calc(100% - var(--fecha,100%));width:44px;margin-left:-22px;padding:0;border:0;background:none;cursor:grab;-webkit-tap-highlight-color:transparent}
+.compara__alca::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:linear-gradient(180deg,transparent,var(--gold),transparent);box-shadow:0 0 16px var(--gold)}
+.compara__alca:active{cursor:grabbing}
+.compara__alca:focus-visible{outline:none}
+.compara__alca:focus-visible::after{box-shadow:0 0 0 3px var(--cream)}
+.compara__alca::after{content:"⇆";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:var(--gold);color:var(--cream);display:grid;place-items:center;font-size:14px}
+.no-js .compara__depois,html:not(.js) .compara__depois{clip-path:none}
+html:not(.js) .compara__alca{display:none}
+@media (min-width:900px){
+  .compara__cortina{height:460px}
+  .compara__camada{grid-template-rows:none;grid-template-columns:1fr 1.05fr;align-items:center;gap:30px;padding:46px}
+  .compara__foto--depois{height:100%;max-height:368px}
+}

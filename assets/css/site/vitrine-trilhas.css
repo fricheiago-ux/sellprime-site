@@ -1,0 +1,36 @@
+/* PROPRIETÁRIO, vitrine no modo "Destaques": duas fileiras de cartões que passam sozinhas, a de cima para a
+   esquerda e a de baixo para a direita (molde da seção de depoimentos da referência Spectra, 22/11/2026).
+   Cartão menor que o do carrossel antigo, para caber mais. As bordas da tela somem num degradê.
+   Para com o mouse por cima (só com mouse de verdade) ou com o foco do teclado. Celular: as mesmas duas fileiras,
+   com cartões menores; tocar abre a prévia. Movimento reduzido: fileiras paradas, roladas com o dedo. */
+.vt{margin-top:var(--sp-6);padding-block:var(--sp-3);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.vt__fileiras{list-style:none;margin:0;padding:0;display:grid;gap:var(--sp-5)}
+.vt__fileira{overflow:hidden}
+.vt__faixa{--w:clamp(200px,52vw,260px);list-style:none;margin:0;padding:var(--sp-2) 0;display:flex;gap:var(--sp-5);width:max-content;animation:vt-esq var(--dur,40s) linear infinite}
+.vt__fileira--dir .vt__faixa{animation-name:vt-dir}
+@keyframes vt-esq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes vt-dir{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.vt__fileira:focus-within .vt__faixa{animation-play-state:paused}
+.vt__item{flex:0 0 var(--w)}
+.vt__card{display:block;width:100%;padding:0;border:0;background:none;color:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.vt__card:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:18px}
+.vt__foto{position:relative;display:block;aspect-ratio:4/3;border-radius:18px;overflow:hidden;background:var(--cream);box-shadow:0 24px 36px -26px rgba(12,35,43,.55)}
+.vt__foto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform var(--mo-reveal) var(--ease);user-select:none;-webkit-user-drag:none}
+.vt__foto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(12,35,43,.45));pointer-events:none}
+.vt__tipo{position:absolute;z-index:1;left:12px;top:12px;padding:6px 10px;border-radius:var(--radius-pill);background:var(--cream);color:var(--petrol-dark);font:600 var(--fs-micro)/1 var(--font-body);letter-spacing:.04em}
+.vt__preco{position:absolute;z-index:1;right:14px;bottom:12px;color:var(--cream);font:italic 400 var(--fs-lead)/1 var(--font-title)}
+.vt__cap{display:grid;gap:var(--sp-1);margin-top:var(--sp-3);padding-inline:var(--sp-1)}
+.vt__cap b{font:italic 400 var(--fs-lead)/1.15 var(--font-title);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vt__cap i{font:500 var(--fs-micro)/1.3 var(--font-body);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (hover:hover){
+  .vt__fileira:hover .vt__faixa{animation-play-state:paused}
+  .vt__card:hover .vt__foto img{transform:scale(1.05)}
+}
+@media (min-width:640px){.vt__faixa{--w:240px}}
+@media (min-width:1280px){.vt__faixa{--w:280px}}
+@media (prefers-reduced-motion:reduce){
+  .vt{-webkit-mask-image:none;mask-image:none}
+  .vt__fileira{overflow-x:auto}
+  .vt__faixa{animation:none;padding-inline:var(--gutter)}
+  .vt__foto img{transition:none}
+}

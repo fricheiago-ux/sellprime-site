@@ -2,10 +2,12 @@
 const cfg=window.SELLPRIME||{};
 const link=msg=>'https://wa.me/'+cfg.whatsapp+'?text='+encodeURIComponent(msg);
 const form=document.querySelector('form[data-form]');
-const tipo=form?form.dataset.form:'corretor';
+const perfil=document.querySelector('[data-whatsapp-perfil]');
+const tipo=form?form.dataset.form:(perfil?perfil.dataset.whatsappPerfil:'corretor');
 const saudacao={corretor:'Olá! Sou corretor(a) e quero conhecer a SellPrime.',proprietario:'Olá! Sou proprietário(a) e quero anunciar meu imóvel na SellPrime.'};
 // botão "Falar pelo WhatsApp": abre conversa direta
-document.querySelectorAll('[data-whatsapp]').forEach(a=>{a.href=link(saudacao[tipo]);a.target='_blank';a.rel='noopener'});
+const geral='Olá! Gostaria de falar com a equipe da SellPrime.'; // links do cabeçalho: mensagem geral, sem dizer corretor ou proprietário
+document.querySelectorAll('[data-whatsapp]').forEach(a=>{a.href=link(a.dataset.whatsappMsg==='geral'?geral:saudacao[tipo]);a.target='_blank';a.rel='noopener'});
 if(!form)return;
 // botões dos planos escolhem o plano no formulário
 document.querySelectorAll('[data-plano]').forEach(a=>a.addEventListener('click',()=>{

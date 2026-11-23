@@ -1,0 +1,53 @@
+/* PROPRIETÁRIO, primeira seção: corredor de imóveis em movimento automático (molde de uma referência de hero com
+   cartões em profundidade, aprovado pelo Iago em 22/11/2026). Começa rápido e desacelera; o título sobe por máscara.
+   Celular (até 899px): em blocos, sem nada por cima do texto. O corredor fica numa faixa abaixo do cabeçalho e o
+   texto vem embaixo, sobre o creme liso (antes o texto ficava preso ao pé da tela e, em celular baixo, subia para
+   cima das fotos e do véu claro, e sumia). Computador (900+): corredor na tela toda, título no centro sobre um véu.
+   Movimento reduzido: composição parada. Só transform e opacity (sem blur), 16 cartões em miniatura de 800px. */
+.corr{position:relative;height:100svh;min-height:600px;overflow:hidden;background:var(--cream);isolation:isolate}
+.corr__palco{position:absolute;inset:0;perspective:900px;perspective-origin:50% 46%;z-index:0}
+.corr__card{position:absolute;left:50%;top:46%;width:var(--cw);aspect-ratio:4/5;margin:calc(var(--cw)*-.625) 0 0 calc(var(--cw)*-.5);border-radius:18px;overflow:hidden;background:var(--cream-2);box-shadow:0 30px 60px -30px rgba(12,35,43,.45),0 0 0 1px rgba(12,35,43,.06);will-change:transform,opacity;opacity:0;backface-visibility:hidden}
+.corr__card img{width:100%;height:100%;object-fit:cover;display:block}
+.corr{--cw:260px}
+/* véu creme atrás do título: degradê que já nasce suave (sem filter:blur) */
+.corr__veu{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 42% 34% at 50% 47%,rgba(243,240,233,.92) 0%,rgba(243,240,233,.7) 45%,rgba(243,240,233,0) 100%),linear-gradient(to bottom,var(--cream) 0%,rgba(243,240,233,0) 16%,rgba(243,240,233,0) 80%,var(--cream) 100%)}
+.corr__txt{position:absolute;inset:0;z-index:2;display:grid;place-content:center;justify-items:center;text-align:center;padding:0 var(--gutter);pointer-events:none}
+.corr__eyebrow{font:500 var(--fs-micro)/1 var(--font-body);letter-spacing:.22em;text-transform:uppercase;color:var(--petrol);margin:0 0 var(--sp-5)}
+.corr__titulo{margin:0;font:italic 400 clamp(46px,7.4vw,112px)/.98 var(--font-title);letter-spacing:-.02em;color:var(--petrol-dark)}
+.corr__titulo em{font-style:normal;font-weight:300}
+.corr__linha{display:block;overflow:hidden;padding-bottom:.08em}
+.corr__linha>span{display:inline-block;transform:translateY(105%);transition:transform var(--mo-reveal) var(--ease)}
+.corr__linha:nth-child(2)>span{transition-delay:120ms}
+.corr__lead{max-width:440px;margin:var(--sp-5) 0 0;font-size:var(--fs-body);line-height:1.6;color:var(--petrol)}
+.corr__acoes{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--sp-3);margin-top:var(--sp-6);pointer-events:auto}
+.corr__eyebrow,.corr__lead,.corr__acoes{opacity:0;transform:translateY(16px);transition:opacity var(--mo-slow) var(--ease),transform var(--mo-slow) var(--ease)}
+.corr.is-texto .corr__linha>span{transform:none}
+.corr.is-texto .corr__eyebrow{opacity:1;transform:none}
+.corr.is-texto .corr__lead{opacity:1;transform:none;transition-delay:450ms}
+.corr.is-texto .corr__acoes{opacity:1;transform:none;transition-delay:600ms}
+/* legenda: o imóvel que está passando */
+.corr__leg{position:absolute;left:var(--gutter);bottom:var(--sp-6);z-index:3;display:grid;gap:var(--sp-1);min-width:0;max-width:calc(100% - 2*var(--gutter))}
+.corr__num{font:500 var(--fs-micro)/1 var(--font-body);letter-spacing:.2em;color:var(--grey)}
+.corr__nome{font:500 var(--fs-lead)/1.2 var(--font-title);color:var(--petrol-dark);transition:opacity var(--mo-fast) var(--ease)}
+.corr__local{font-size:var(--fs-small);color:var(--text-muted);transition:opacity var(--mo-fast) var(--ease)}
+.corr__leg.is-troca .corr__nome,.corr__leg.is-troca .corr__local{opacity:0}
+.corr__aviso{position:absolute;right:var(--gutter);bottom:var(--sp-6);z-index:3;font-size:var(--fs-micro);letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+.corr__pausa{position:absolute;right:var(--gutter);top:calc(var(--header-h) + var(--sp-4));z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:rgba(243,240,233,.8);color:var(--petrol-dark);display:grid;place-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.corr__pausa svg{width:14px;height:14px;fill:currentColor}
+@media (prefers-reduced-motion:reduce){.corr__linha>span,.corr__eyebrow,.corr__lead,.corr__acoes{transform:none;opacity:1;transition:none}}
+@media (min-width:640px){.corr{--cw:280px}}
+@media (min-width:900px){.corr{--cw:300px}}
+@media (min-width:1280px){.corr{--cw:340px}}
+
+/* ---------- celular e tablet (até 899px): em blocos ---------- */
+@media (max-width:899px){
+  .corr{--cw:170px;--palco-h:clamp(230px,38svh,320px);height:auto;min-height:0;display:flex;flex-direction:column;padding-top:var(--header-h)}
+  .corr__palco{position:relative;inset:auto;height:var(--palco-h);flex:none;overflow:hidden;perspective-origin:50% 40%}
+  .corr__card{top:52%}
+  .corr__veu{inset:var(--header-h) 0 auto;height:var(--palco-h);background:linear-gradient(to bottom,var(--cream) 0%,rgba(243,240,233,0) 14%,rgba(243,240,233,0) 78%,var(--cream) 100%)}
+  .corr__txt{position:relative;inset:auto;padding:var(--sp-5) var(--gutter) var(--sp-5)}
+  .corr__titulo{font-size:clamp(40px,11vw,56px)}
+  .corr__leg{position:relative;left:auto;bottom:auto;max-width:none;padding:0 var(--gutter) var(--sp-7);text-align:center;justify-items:center}
+  .corr__aviso{position:absolute;right:var(--gutter);bottom:auto;top:calc(var(--header-h) + var(--palco-h) - var(--sp-5));z-index:3}
+  .corr__pausa{top:calc(var(--header-h) + var(--sp-3))}
+}

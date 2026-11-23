@@ -1,0 +1,30 @@
+/* Página do corretor: comparativo "sem e com a SellPrime" (seção 9) e chamada final (seção 10).
+   Substituem a seção de planos: os valores só aparecem dentro da plataforma, depois do login
+   (decisão dos sócios, 29/10/2026). Mobile: as duas colunas empilham ("sem" em cima). */
+
+.comp__head{display:flex;flex-direction:column;gap:var(--sp-3);margin-bottom:var(--sp-7)}
+.comp__grid{display:grid;grid-template-columns:1fr;gap:var(--sp-4)}
+.comp__col{border-radius:var(--radius-lg);padding:var(--sp-5)}
+.comp__col--sem{background:var(--cream-2);color:var(--text-muted)}
+.comp__col--com{background:var(--petrol);color:var(--text-on-dark)}
+.comp__titulo{display:flex;align-items:center;gap:var(--sp-2);min-height:48px;margin:0 0 var(--sp-4);font:500 var(--fs-body)/1.2 var(--font-body);letter-spacing:.02em}
+.comp__titulo--logo img{height:44px;width:auto} /* era 28px; aumentado a pedido do Iago (23/11/2026). As duas colunas têm título de 48px para as listas continuarem alinhadas */
+.comp__lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.comp__lista li{display:flex;align-items:flex-start;gap:var(--sp-3);padding-block:var(--sp-4);border-top:1px solid var(--line)}
+.comp__col--com .comp__lista li{border-top-color:rgba(243,240,233,.14)}
+.comp__lista svg{flex:none;width:16px;height:16px;margin-top:4px}
+.comp__col--sem svg{color:var(--grey)}
+.comp__col--com svg{color:var(--gold)}
+
+.fim{background:var(--cream-2)}
+.fim__in{display:flex;flex-direction:column;align-items:flex-start;gap:var(--sp-4)}
+.fim__in .lead{max-width:30em}
+.fim__acoes{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-4) var(--sp-5);margin-top:var(--sp-2)}
+.fim__whats{font-size:var(--fs-small);color:var(--text-muted);text-decoration:underline;text-underline-offset:3px}
+
+@media (min-width:900px){
+  .comp__grid{grid-template-columns:1fr 1fr;gap:var(--sp-5)}
+  .comp__col{padding:var(--sp-6)}
+  .fim__in{align-items:center;text-align:center}
+  .fim__acoes{justify-content:center}
+}

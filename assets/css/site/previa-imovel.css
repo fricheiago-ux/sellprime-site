@@ -1,0 +1,40 @@
+/* Popup de prévia do imóvel (padrão do site; JS em previa-imovel.js). Molde: o painel da vitrine do proprietário.
+   Celular: painel quase em tela cheia, informações em cima e fotos embaixo, rolando dentro do painel.
+   Computador (900+): informações à esquerda (paradas enquanto as fotos rolam) e fotos à direita. */
+.pv{position:fixed;left:0;top:0;z-index:80;width:100vw;height:100dvh;display:flex;align-items:center;justify-content:center;padding:var(--sp-3)}
+.pv[hidden]{display:none}
+.pv__fundo{position:absolute;inset:0;background:rgba(12,35,43,.55)}
+.pv__painel{position:relative;z-index:1;width:min(1100px,100%);max-height:calc(100dvh - 2 * var(--sp-3));overflow:auto;background:var(--cream);border-radius:24px;box-shadow:0 40px 90px -30px rgba(0,0,0,.6);overscroll-behavior:contain}
+.pv__fechar{position:absolute;z-index:3;right:var(--sp-4);top:var(--sp-4);width:44px;height:44px;border:0;border-radius:50%;background:var(--petrol-dark);color:var(--cream);font-size:20px;cursor:pointer;display:grid;place-items:center;-webkit-tap-highlight-color:transparent}
+.pv__grade{display:grid;grid-template-columns:1fr}
+.pv__info{padding:var(--sp-6) var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-4)}
+.pv__eyebrow{font:500 11px/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin:0}
+.pv__titulo{font:400 clamp(30px,4vw,44px)/1.05 var(--font-title);font-style:italic;letter-spacing:-.015em;padding-right:var(--sp-7);margin:0}
+.pv__tags{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center}
+.pv__tag{display:inline-flex;align-items:center;min-height:32px;padding:0 var(--sp-3);border:1px solid var(--line);border-radius:var(--radius-pill);font:500 11px/1 var(--font-body);letter-spacing:.1em;text-transform:uppercase}
+.pv__preco{font:400 28px/1 var(--font-title);font-style:italic;margin:0}
+.pv__ficha{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-3) var(--sp-5);margin:0;padding-block:var(--sp-4);border-block:1px solid var(--line)}
+.pv__ficha dt{font:500 11px/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
+.pv__ficha dd{margin:0;font:400 22px/1 var(--font-title)}
+.pv__cta{align-self:flex-start;margin-top:var(--sp-2);gap:var(--sp-3)}
+.pv__cta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform var(--mo-base) var(--ease)}
+.pv__nota{font-size:var(--fs-small);color:var(--text-muted);margin:0}
+/* mapa no espaço livre abaixo do botão (estilos do mapa em mapa-busca.css) */
+.pv__mapa{height:260px;margin-top:var(--sp-2)}
+.pv__galeria{display:flex;flex-direction:column;gap:var(--sp-4);padding:0 var(--sp-5) var(--sp-5)}
+.pv__galeria figure{margin:0}
+.pv__galeria img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:14px;display:block;background:var(--cream-2)}
+.pv__galeria figcaption{margin-top:var(--sp-2);font:500 11px/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted)}
+.pv__galeria figcaption:empty{display:none}
+@media (hover:hover){
+  .pv__cta:hover svg{transform:translateX(4px)}
+  .pv__fechar:hover{background:var(--petrol)}
+}
+@media (min-width:900px){
+  .pv{padding:var(--sp-5)}
+  .pv__painel{max-height:calc(100dvh - 2 * var(--sp-5))}
+  .pv__grade{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+  .pv__info{padding:var(--sp-7) var(--sp-6);position:sticky;top:0;align-self:start}
+  .pv__mapa{height:clamp(240px,40vh,380px)}
+  .pv__galeria{padding:var(--sp-4) var(--sp-4) var(--sp-4) 0}
+}

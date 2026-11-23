@@ -1,0 +1,104 @@
+/* HOME: "Quem somos" (esquema animado) e as duas faixas de público (corretor e proprietário).
+   Faixas: molde de um portal imobiliário de referência (faixa clara + foto em paralelogramo
+   arredondado que passa da faixa em cima e embaixo), redesenhado com a marca.
+   Celular: texto em cima, foto embaixo (retângulo arredondado, sem inclinação). */
+
+/* ---------- Quem somos ----------
+   Seção inteira em petróleo escuro. O que é a SellPrime contado pelo "Esquema animado" do design system (Nebula):
+   proprietários e captadores à esquerda, vendedores e compradores à direita, o ecossistema embaixo e, no centro,
+   a SellPrime em partículas que se formam com a rolagem. As linhas se desenham quando o esquema entra na tela e
+   um traço dourado corre por elas sem parar.
+   Computador (900+): esquema deitado. Celular: o mesmo esquema em pé (outro desenho, para o texto continuar legível).
+   O fim da seção é um degradê do petróleo para o creme, que emenda com a faixa do corretor. */
+.qs{--degrade:280px;--fim:var(--cream);position:relative;isolation:isolate;background:var(--petrol-dark);color:var(--cream);padding-bottom:calc(var(--sp-6) + var(--degrade));overflow-x:clip}
+/* ao entrar na tela, a seção começa com margens creme dos lados (6%) e cantos redondos (50px) e vai se abrindo
+   até ocupar a largura toda (molde do bloco "Closing + footer" do design system; valores em home-quem-somos.js) */
+.qs{clip-path:inset(0 var(--qs-margem,0%) round var(--qs-raio,0px))}
+/* a faixa do corretor sobe para dentro do fim claro do degradê (antes sobravam ~600px vazios entre o texto e a foto).
+   Posicionada para ficar por cima do degradê. */
+#para-corretores{position:relative;margin-top:calc((var(--sp-8) + var(--sp-6)) * -1)}
+/* degradê: do petróleo escuro ao petróleo, a um azul médio, a um azul claro e até a cor da faixa seguinte (creme no celular; no computador,
+   o cinza-creme da faixa do corretor). As 49 cores foram calculadas em OKLab, numa curva suave (sem "quinas") que parte
+   e chega com inclinação zero. O azul mantém o tom até quase o fim e só no último trecho vira a cor da faixa; antes
+   ele virava cinza cedo demais, e o olho enxergava uma linha onde o azul escuro vira azul claro (ajuste de 23/11/2026, pedido do Iago). Para refazer: scripts/gerar-degrade.py. */
+.qs::after{content:"";position:absolute;left:0;right:0;bottom:0;height:var(--degrade);z-index:-1;background:linear-gradient(180deg,#0c232b 0.00%,#0c232b 2.08%,#0c242c 4.17%,#0c242d 6.25%,#0c252e 8.33%,#0b2730 10.42%,#0b2831 12.50%,#0b2a33 14.58%,#0c2c36 16.67%,#0c2e38 18.75%,#0d303b 20.83%,#0d323d 22.92%,#0f3440 25.00%,#113742 27.08%,#133945 29.17%,#163c48 31.25%,#1a3f4b 33.33%,#1f434f 35.42%,#244854 37.50%,#2a4e5a 39.58%,#315460 41.67%,#385a66 43.75%,#3f616c 45.83%,#476773 47.92%,#4e6e79 50.00%,#557580 52.08%,#5c7b86 54.17%,#63808b 56.25%,#698690 58.33%,#6f8b96 60.42%,#76919b 62.50%,#7c96a0 64.58%,#839ba5 66.67%,#89a1a9 68.75%,#90a6ae 70.83%,#96abb3 72.92%,#9db0b7 75.00%,#a3b5bc 77.08%,#aabac1 79.17%,#b0bfc5 81.25%,#b7c4c9 83.33%,#bec9cd 85.42%,#c4cdd1 87.50%,#cbd2d5 89.58%,#d2d7d9 91.67%,#dbdede 93.75%,#e6e6e3 95.83%,#efede7 97.92%,#f3f0e9 100.00%)}
+.qs__topo{display:grid;gap:var(--sp-4);max-width:720px;margin:0 auto var(--sp-7);text-align:center;justify-items:center}
+.qs__eyebrow{color:var(--gold);margin:0}
+.qs__titulo{font-family:var(--font-title);font-weight:300;color:var(--cream);margin:0}
+.qs__titulo em{font-style:italic}
+.qs__topo .lead{margin:0;color:rgba(243,240,233,.72)}
+.qs__nota{max-width:640px;margin:var(--sp-6) auto 0;text-align:center;font-size:var(--fs-body);line-height:1.6;color:rgba(243,240,233,.66)}
+
+/* esquema (valores de traço, cor e movimento copiados do design system) */
+.esq{position:relative;max-width:1100px;margin:0 auto}
+.esq--pe{max-width:420px}
+.esq--deitado{display:none}
+.esq svg{width:100%;height:auto;display:block;overflow:visible}
+.esq .flow{stroke:rgba(243,240,233,0.14);stroke-width:1.6;fill:none;stroke-linecap:round}
+.esq .flow-dash{stroke:var(--gold);stroke-width:2;fill:none;stroke-linecap:round}
+.esq .node-label{font:600 15px var(--font-body);fill:var(--cream)}
+.esq .node-sub{font:400 12px var(--font-body);fill:rgba(243,240,233,.66)}
+.esq .snode{transform-box:fill-box;transform-origin:center}
+.esq .pulse{transform-box:fill-box;transform-origin:center}
+.esq__palco{position:absolute}
+.esq__palco canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.esq__reserva{position:absolute;inset:0;display:grid;place-items:center;font:italic 400 44px/1 var(--font-title);color:var(--cream);opacity:0}
+.no-canvas .esq__reserva{opacity:1}
+
+/* ---------- Faixas de público ---------- */
+.faixa{padding-block:var(--sp-7)}
+.faixa__in{display:grid;gap:var(--sp-6)}
+.faixa__foto{position:relative;border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:4/3;background:var(--cream-2)}
+.faixa__foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.faixa__txt{display:grid;gap:var(--sp-4);align-content:center;justify-items:start}
+.faixa__eyebrow{font:400 var(--fs-body)/1.3 var(--font-body);color:var(--gold);margin:0}
+.faixa__titulo{font:300 var(--fs-h3)/1.15 var(--font-title);color:var(--petrol);margin:0}
+.faixa__titulo em{font-style:italic}
+.faixa__txt p{margin:0;color:var(--text-muted);line-height:1.6;max-width:46ch}
+.faixa__txt .btn{margin-top:var(--sp-2)}
+/* a faixa inteira é clicável (o link do botão cobre a faixa); no hover a foto aproxima e ganha cor,
+   a faixa escurece um tom e a seta do botão anda. Só com mouse; no toque fica o estado normal. */
+.faixa__in{position:relative}
+.faixa__link::after{content:"";position:absolute;inset:0;z-index:2}
+.faixa__link svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform var(--mo-base) var(--ease)}
+.faixa__foto img{filter:saturate(.85);transition:transform var(--mo-reveal) var(--ease),filter var(--mo-reveal) var(--ease)}
+.faixa__titulo em{transition:color var(--mo-base) var(--ease)}
+
+@media (hover:hover){
+  .faixa:hover .faixa__foto img{filter:saturate(1);transform:scale(1.05)}
+  .faixa:hover .faixa__link{background:var(--petrol);box-shadow:0 14px 28px -10px rgba(20,58,70,.55)}
+  .faixa:hover .faixa__link svg{transform:translateX(4px)}
+  .faixa:hover .faixa__titulo em{color:var(--petrol-dark)}
+  .faixa::before{transition:background var(--mo-slow) var(--ease)}
+  .faixa:hover::before{background:var(--tint-petrol,color-mix(in srgb,var(--petrol) 9%,var(--cream)))}
+  /* a faixa do corretor emenda no fim do degradê do Quem somos: o fundo dela não pode mudar de cor no hover,
+     senão aparece uma linha na emenda (pedido do Iago, 23/11/2026) */
+  #para-corretores:hover::before{background:var(--cream-2)}
+}
+@media (min-width:900px){
+  .qs{--degrade:360px;--fim:var(--cream-2)}
+  .qs::after{background:linear-gradient(180deg,#0c232b 0.00%,#0c232b 2.08%,#0c242c 4.17%,#0c242d 6.25%,#0c252e 8.33%,#0b2730 10.42%,#0b2831 12.50%,#0b2a33 14.58%,#0c2c36 16.67%,#0c2e38 18.75%,#0d303b 20.83%,#0d323d 22.92%,#0f3440 25.00%,#113742 27.08%,#133945 29.17%,#163c48 31.25%,#1a3f4b 33.33%,#1f434f 35.42%,#244854 37.50%,#2a4e5a 39.58%,#315460 41.67%,#385a66 43.75%,#3f616c 45.83%,#476773 47.92%,#4e6e79 50.00%,#557580 52.08%,#5c7b86 54.17%,#63808b 56.25%,#698690 58.33%,#6f8b96 60.42%,#76919b 62.50%,#7c96a0 64.58%,#839ba5 66.67%,#89a1a9 68.75%,#90a6ae 70.83%,#96abb3 72.92%,#9db0b7 75.00%,#a3b5bc 77.08%,#aabbc1 79.17%,#b1c0c5 81.25%,#b9c5ca 83.33%,#c0cacf 85.42%,#c7cfd3 87.50%,#cdd4d7 89.58%,#d3d8da 91.67%,#d8dbdc 93.75%,#dddfdd 95.83%,#e1e2de 97.92%,#e3e3de 100.00%)}
+  /* computador: a faixa sobe 176px (subiu mais 48px em 23/11); o fundo dela começa onde o degradê termina (176px abaixo
+     do topo dela), e a foto, que começa 48px abaixo do topo, entra 128px no fim claro do degradê */
+  #para-corretores{margin-top:calc((var(--sp-8) * 2 + var(--sp-7)) * -1)}
+  #para-corretores::before{top:calc(var(--sp-8) * 2 + var(--sp-7))}
+  /* o fundo da faixa do proprietário desce até o fim dela e emenda no convite para o cadastro, que vem logo depois */
+  #para-proprietarios::before{bottom:0}
+  .esq--pe{display:none}
+  .esq--deitado{display:block}
+  /* a faixa clara fica atrás; a foto passa dela 48px em cima e embaixo */
+  .faixa{padding-block:var(--sp-7);position:relative}
+  .faixa::before{content:"";position:absolute;inset:calc(var(--sp-7) * 2) 0;background:var(--cream-2);z-index:-1}
+  .faixa{isolation:isolate}
+  .faixa__in{grid-template-columns:1fr 1fr;gap:var(--sp-8);align-items:center}
+  .faixa--foto-esq .faixa__foto{order:-1}
+  .faixa__foto{aspect-ratio:auto;height:440px;border-radius:72px 24px 72px 24px;transform:skewX(-9deg);margin-inline:28px}
+  .faixa__foto img{transform:skewX(9deg) scale(1.2)}
+  .faixa:hover .faixa__foto img{transform:skewX(9deg) scale(1.26)}
+  .faixa--foto-esq .faixa__foto{border-radius:24px 72px 24px 72px}
+}
+@media (min-width:1280px){
+  .faixa__foto{height:480px}
+}
+
+

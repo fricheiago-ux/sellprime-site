@@ -1,0 +1,81 @@
+/* CONVITE PARA O CADASTRO (peça reutilizável: hoje na página do corretor; se aprovada, vai para a home).
+   Molde: bloco "Workbench" do design system (grade 43 : 57 com borda fina). Esquerda: título, texto e o botão numa
+   caixa com sombra deslocada, e uma seta enorme e quase transparente ao fundo. Direita: um "painel" da plataforma em
+   que os benefícios vão sendo marcados um a um (círculo girando e depois o ✓ dourado).
+   Celular: um bloco embaixo do outro (chamada, depois o painel). */
+/* seção inteira em cinza (o creme acinzentado da marca). Ao entrar na tela começa com margens creme de 6% dos lados
+   e cantos de 50px, que se fecham conforme o topo sobe 70% da tela, como o Quem somos da home; os cantos terminam
+   arredondados em 24px (valores em convite.js) */
+.conv{background:var(--cream-2);clip-path:inset(0 var(--conv-margem,0%) round var(--conv-raio,24px))}
+.conv__grade{display:grid;grid-template-columns:1fr;border:1px solid var(--line);background:var(--cream)}
+
+/* esquerda */
+.conv__chamada{position:relative;overflow:hidden;background:var(--cream-2);padding:var(--sp-6) var(--sp-5);display:flex;flex-direction:column;justify-content:space-between;gap:var(--sp-6)}
+.conv__chamada::after{content:"↗";position:absolute;right:-20px;top:-45px;font:400 330px/1 var(--font-body);color:rgba(12,35,43,.063);pointer-events:none}
+.conv__topo{position:relative;z-index:1;display:grid;gap:var(--sp-4)}
+.conv__titulo{margin:0;max-width:11em}
+.conv__topo .lead{margin:0;max-width:26em}
+.conv__caixa{position:relative;z-index:1;background:var(--cream);padding:var(--sp-4) var(--sp-5);border:1px solid rgba(12,35,43,.149);box-shadow:5px 5px 0 rgba(12,35,43,.051);display:grid;gap:var(--sp-3)}
+.conv__rotulo{font:500 var(--fs-micro)/1 var(--font-body);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin:0}
+.conv__caixa .btn{width:100%;justify-content:space-between;gap:var(--sp-4)}
+.conv__caixa .btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform var(--mo-base) var(--ease)}
+/* (link do WhatsApp removido a pedido do Iago, 23/11/2026) */
+.conv__whats{font-size:var(--fs-small);color:var(--text-muted);text-decoration:underline;text-underline-offset:3px;justify-self:start;min-height:44px;display:inline-flex;align-items:center}
+
+/* direita: painel */
+.conv__painel{padding:var(--sp-5);display:flex;flex-direction:column;min-height:460px}
+.conv__barra{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);border-bottom:1px solid var(--line);padding-bottom:var(--sp-4)}
+.conv__marca{display:flex;align-items:center;gap:var(--sp-2);font:600 var(--fs-small)/1 var(--font-body)}
+.conv__marca img{width:20px;height:auto}
+.conv__status{display:flex;text-align:right;align-items:center;gap:6px;font-size:var(--fs-micro);color:var(--grey)}
+.conv__status i{width:7px;height:7px;border-radius:50%;background:var(--petrol);animation:conv-pisca 1.4s infinite}
+.conv__pedido{display:flex;align-items:flex-start;gap:var(--sp-3);margin:var(--sp-5) 0;font-size:var(--fs-small)}
+.conv__pedido p{margin:0;padding-top:4px}
+/* avatar ilustrado (o mesmo desenho #sp-avatar dos depoimentos; estilo repetido aqui para valer também na home) */
+.conv__voce{flex:none;width:32px;height:32px;display:grid;place-items:end center;border-radius:50%;overflow:hidden;background:var(--petrol);color:var(--cream)}
+.conv__voce svg{width:78%;height:78%;margin-bottom:-6%}
+.conv__lista{list-style:none;margin:0;padding:0;display:grid;gap:var(--sp-3)}
+.conv__item{display:flex;align-items:center;gap:var(--sp-3);font-size:var(--fs-body);color:var(--grey);transition:color .3s}
+.conv__tick{flex:none;width:20px;height:20px;border-radius:50%;border:1px solid rgba(12,35,43,.22);display:grid;place-items:center;font-size:11px;color:transparent;transition:background .3s,color .3s,border-color .3s}
+.conv__item.is-rodando{color:var(--petrol-dark)}
+.conv__item.is-rodando .conv__tick{border-color:var(--petrol);border-top-color:transparent;animation:conv-gira 1s linear infinite}
+.conv__item.is-feito{color:var(--petrol-dark)}
+/* marcado: círculo dourado e ✓ petróleo (pedido do Iago, 23/11/2026) */
+.conv__item.is-feito .conv__tick{background:var(--gold);border-color:var(--gold);color:var(--petrol-dark);font-weight:700}
+/* partículas da marca: ocupam o espaço que sobra entre a lista e o rodapé do painel */
+.conv__pontos{position:relative;flex:1;min-height:140px;margin-top:var(--sp-5)}
+.conv__pontos canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.conv__rodape{padding-top:var(--sp-3);display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;justify-content:flex-end}
+.conv__rodape a{color:var(--petrol-dark);text-decoration:underline;text-underline-offset:4px;text-transform:none;letter-spacing:0;font-size:var(--fs-small);min-height:44px;display:inline-flex;align-items:center}
+
+/* variante "emenda" (home): sem a abertura das margens e com o mesmo fundo da faixa de cima (creme no celular,
+   creme acinzentado no computador, onde a faixa do proprietário tem fundo próprio) */
+.conv--emenda{background:var(--cream);clip-path:none}
+
+/* seta do canto do quadro da esquerda, ligada à rolagem (JS em convite.js escreve --conv-p: 0 com a seção entrando, 1 assentada):
+   ela sobe de baixo à esquerda, girada, até o seu lugar. Sem JS ou com movimento reduzido fica em 1 (no lugar). O título
+   NÃO anima (pedido do Iago, 23/11/2026). */
+.conv__chamada{--conv-p:1}
+.conv__chamada::after{opacity:var(--conv-p);transform:translate(calc((1 - var(--conv-p)) * -140px),calc((1 - var(--conv-p)) * 140px)) rotate(calc((1 - var(--conv-p)) * -35deg))}
+
+@keyframes conv-gira{to{transform:rotate(360deg)}}
+@keyframes conv-pisca{50%{opacity:.3}}
+
+@media (hover:hover){
+  .conv__caixa .btn:hover svg{transform:translate(2px,-2px)}
+}
+@media (min-width:640px){
+  /* lista e cartão alinhados ao texto do pedido (40px = avatar + espaço), como no design system */
+  .conv__lista{padding-left:40px}
+  .conv__chamada{padding:var(--sp-7) var(--sp-6)}
+  .conv__painel{padding:var(--sp-6)}
+}
+@media (min-width:900px){
+  .conv--emenda{background:var(--cream-2)}
+  .conv__grade{grid-template-columns:43% 57%;min-height:540px}
+  .conv__chamada::after{font-size:360px;right:-15px;top:-75px}
+  .conv__painel{padding:var(--sp-6) var(--sp-7)}
+}
+@media (prefers-reduced-motion:reduce){
+  .conv__status i,.conv__item.is-rodando .conv__tick{animation:none}
+}

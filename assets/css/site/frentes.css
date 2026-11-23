@@ -9,8 +9,6 @@
 }
 @media (min-width:900px){
   .card{box-shadow:var(--shadow-float);border-color:transparent;transform:rotate(var(--tilt,0deg))}
-  .js .card.reveal{transform:translateY(24px) rotate(var(--tilt,0deg))}
-  .js .card.reveal.in{transform:rotate(var(--tilt,0deg))}
 }
 @media (min-width:900px){
   .frentes__grid--3{grid-template-columns:repeat(3,1fr)}

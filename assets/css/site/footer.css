@@ -1,7 +1,7 @@
 /* Rodapé: logo (pequena, acima dos ícones de contato), colunas de seções e contato. */
 .site-footer{background:var(--petrol-dark);color:var(--cream);padding-top:var(--sp-7);overflow-x:clip}
 .site-footer a{text-decoration:none;color:inherit}
-.site-footer__topo{display:grid;gap:var(--sp-6);padding-bottom:var(--sp-6);border-bottom:1px solid rgba(243,240,233,.18)}
+.site-footer__topo{display:grid;gap:var(--sp-6);padding-bottom:var(--sp-6)}
 .site-footer__col h3{font-family:var(--font-body);font-size:var(--fs-small);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:var(--sp-3)}
 .site-footer__col ul{list-style:none;margin:0;padding:0;display:grid;gap:var(--sp-1)}
 .site-footer__col a{color:rgba(243,240,233,.75);min-height:44px;display:inline-flex;align-items:center;font-size:15px}
@@ -13,6 +13,10 @@
 .site-footer__nota{font-size:var(--fs-small);color:rgba(243,240,233,.55);margin-top:var(--sp-3);max-width:28ch}
 .site-footer__logo{display:inline-block;margin-bottom:var(--sp-4)}
 .site-footer__logo img{height:44px;width:auto;display:block}
+/* casinha da marca em dourado translúcido (como no rodapé do design system). Computador: última coluna, à direita,
+   com o topo alinhado aos títulos das colunas e a altura das listas. Celular: fim das colunas, à direita. */
+.site-footer__marca{display:flex;justify-content:flex-end;align-items:flex-start}
+.site-footer__marca img{width:120px;height:auto;opacity:.5}
 .site-footer__base{display:flex;flex-direction:column;gap:var(--sp-2);padding-block:var(--sp-5);margin-top:var(--sp-5);border-top:1px solid rgba(243,240,233,.18);font-size:var(--fs-small);color:rgba(243,240,233,.6)}
 @media (hover:hover){
   .site-footer__col a:hover{color:var(--cream);text-decoration:underline;text-underline-offset:5px}
@@ -20,6 +24,7 @@
 }
 @media (min-width:640px){.site-footer__topo{grid-template-columns:repeat(2,1fr)}}
 @media (min-width:900px){
-  .site-footer__topo{grid-template-columns:1.2fr 1fr 1fr}
+  .site-footer__topo{grid-template-columns:1.2fr 1fr 1fr auto}
+  .site-footer__marca img{width:auto;height:208px} /* do título "Sou proprietário" ao fim de "Anunciar meu imóvel" */
   .site-footer__base{flex-direction:row;justify-content:space-between}
 }

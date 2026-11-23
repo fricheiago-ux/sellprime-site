@@ -1,0 +1,21 @@
+/* Mapa animado da busca (JS em mapa-busca.js): estados em creme, estado escolhido em petróleo claro,
+   municípios em linha fina, cidade com imóvel em petróleo com contorno dourado e um selo com a contagem. */
+.mapa{position:relative;overflow:hidden;border-radius:var(--radius-lg);background:var(--cream-2);border:1px solid var(--line)}
+.mapa svg{display:block;width:100%;height:100%}
+.mapa__uf{fill:var(--cream);stroke:rgba(20,58,70,.35);stroke-width:.8;vector-effect:non-scaling-stroke;transition:fill var(--mo-base) var(--ease),opacity var(--mo-base) var(--ease)}
+.mapa__uf.is-apagado{opacity:.45}
+.mapa__uf.is-ativo{fill:color-mix(in srgb,var(--petrol) 10%,var(--cream));stroke:var(--petrol);stroke-width:1.2}
+.mapa__mun{fill:transparent;stroke:rgba(20,58,70,.18);stroke-width:.5;vector-effect:non-scaling-stroke;opacity:0;transition:opacity var(--mo-slow) var(--ease),fill var(--mo-base) var(--ease)}
+.mapa__mun.in{opacity:1}
+.mapa__mun.is-cidade{fill:color-mix(in srgb,var(--petrol) 78%,transparent);stroke:var(--gold);stroke-width:1.6}
+.mapa__rotulo{position:absolute;left:0;top:0;transform:translate(-50%,calc(-100% - 14px));background:var(--petrol-dark);color:var(--cream);font:500 12px/1 var(--font-body);letter-spacing:.02em;padding:9px 12px;border-radius:var(--radius-pill);white-space:nowrap;opacity:0;transition:opacity var(--mo-base) var(--ease);pointer-events:none}
+.mapa__rotulo::after{content:"";position:absolute;left:50%;bottom:-11px;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;background:var(--gold);animation:mapa-pulso 1.8s infinite}
+.mapa__rotulo.in{opacity:1}
+.mapa__rotulo.is-fixo{left:50%!important;top:var(--sp-4)!important;transform:translateX(-50%)}
+.mapa__rotulo.is-fixo::after{display:none}
+/* popup do imóvel: a cidade aparece com contorno dourado que acende e pulsa uma vez (1,2 s) */
+.mapa__mun.is-cidade.is-local{fill:color-mix(in srgb,var(--gold) 22%,transparent);stroke:var(--gold);stroke-width:2;animation:mapa-contorno 1.2s var(--ease) both}
+@keyframes mapa-contorno{0%{stroke-opacity:0;stroke-width:1;fill-opacity:0}45%{stroke-opacity:1;stroke-width:4}100%{stroke-opacity:1;stroke-width:2;fill-opacity:1}}
+@keyframes mapa-pulso{0%{box-shadow:0 0 0 0 rgba(184,155,77,.55)}100%{box-shadow:0 0 0 14px rgba(184,155,77,0)}}
+.mapa__etapa{position:absolute;left:var(--sp-3);bottom:var(--sp-3);font:500 var(--fs-micro)/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);background:rgba(243,240,233,.85);padding:8px 10px;border-radius:var(--radius-pill)}
+@media (prefers-reduced-motion:reduce){.mapa__rotulo::after,.mapa__mun.is-cidade.is-local{animation:none}}

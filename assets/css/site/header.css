@@ -1,40 +1,79 @@
+/* CABEÇALHO ÚNICO do site (o mesmo HTML em todas as páginas, entre INICIO-/FIM-CABECALHO; fonte em scripts/cabecalho.html).
+   Dois estados, como no cabeçalho do design system (pedido do Iago, 23/11/2026):
+   - no topo da página: azul da marca (petróleo), texto e logo creme;
+   - depois de rolar (classe .is-rolado, posta por header.js): creme translúcido com desfoque do que passa por baixo,
+     texto e logo petróleo. A troca leva 0,3 s. A tipografia é a mesma nos dois estados.
+   O desfoque é do fundo (backdrop-filter), num elemento parado: não pesa como o blur em elemento animado.
+   Computador (900+): cinco tópicos à direita (Imóveis, Plataforma, Quem somos, Sou corretor, Sou proprietário), cada um com
+   submenu (abre com o mouse; no teclado e no toque, pela setinha). Celular: menu de tela cheia com os mesmos grupos. */
 .skip{position:absolute;left:-999px;top:8px;z-index:100;background:var(--petrol-dark);color:var(--cream);padding:var(--sp-3) var(--sp-4);border-radius:var(--radius-md)}
 .skip:focus{left:8px}
-.site-header{position:fixed;inset:0 0 auto 0;z-index:50;height:var(--header-h);background:rgba(243,240,233,.94);border-bottom:1px solid var(--line)}
+.site-header{position:fixed;inset:0 0 auto 0;z-index:50;height:var(--header-h);color:var(--cream);background:rgba(20,58,70,.97);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid rgba(243,240,233,.14);transition:background .3s,color .3s,border-color .3s}
+.site-header.is-rolado{color:var(--petrol-dark);background:rgba(243,240,233,.95);border-bottom-color:var(--line)}
 .site-header__in{height:100%;display:flex;align-items:center;gap:var(--sp-5)}
-.site-header__logo{display:block;margin-right:auto}
-.site-header__logo img{height:40px;width:auto}
-.site-header__nav,.toggle,.site-header__cta{display:none}
-.site-header__nav{gap:var(--sp-5);font-size:14px}
-.site-header__nav a{text-decoration:none;color:var(--text-muted);transition:color var(--mo-fast)}
-.toggle{padding:3px;border:1px solid var(--line);border-radius:var(--radius-pill);font-size:13px}
-.toggle__item{display:inline-flex;align-items:center;min-height:36px;padding:0 var(--sp-4);border-radius:var(--radius-pill);text-decoration:none;color:var(--text-muted);white-space:nowrap;transition:background var(--mo-fast),color var(--mo-fast)}
-.toggle__item.is-on{background:var(--petrol-dark);color:var(--cream)}
+.site-header__logo{display:block;margin-right:auto;-webkit-tap-highlight-color:transparent}
+.site-header__logo img{height:40px;width:auto;display:block}
+/* os dois logos: o claro no topo (fundo azul), o escuro depois de rolar (fundo creme) */
+.logo-escuro,.is-rolado .logo-claro{display:none!important}
+.is-rolado .logo-escuro{display:block!important}
+.site-header__nav{display:none}
+
+/* menu do computador: links em Inter, com sublinhado que cresce no hover (como no design system) */
+.nav{list-style:none;margin:0;padding:0;display:flex;align-items:center;gap:var(--sp-5)}
+.nav__grupo{position:relative;display:flex;align-items:center}
+.nav__link{position:relative;display:inline-flex;align-items:center;min-height:44px;font:400 var(--fs-body)/1 var(--font-body);text-decoration:none;color:inherit}
+.nav__link::after{content:"";position:absolute;left:0;bottom:7px;height:1px;width:0;background:currentColor;transition:width .25s}
+.nav__grupo.is-atual>.nav__link::after{width:100%}
+.nav__abre{width:24px;height:44px;display:grid;place-items:center;border:0;background:transparent;color:inherit;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent}
+.nav__abre svg{width:10px;height:8px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform var(--mo-base) var(--ease)}
+
+/* "Sou corretor" e "Sou proprietário": botões arredondados em destaque (pedido do Iago, 23/11/2026).
+   Corretor cheio, proprietário só com contorno; o botão da página em que a pessoa está também fica cheio.
+   No topo (fundo azul) o cheio é creme com texto petróleo; depois de rolar (fundo creme) o cheio é petróleo com texto creme. */
+.nav__grupo--perfil{margin-left:var(--sp-2);border:1px solid currentColor;border-radius:var(--radius-pill);padding-left:var(--sp-4);transition:background .3s,color .3s,border-color .3s}
+.nav__grupo--perfil+.nav__grupo--perfil{margin-left:calc(var(--sp-3) - var(--sp-5))}
+.nav__grupo--perfil .nav__link{font-weight:600}
+.nav__grupo--perfil .nav__link::after{display:none}
+.nav__grupo--perfil .nav__abre{width:34px}
+.nav__grupo--cheio,.nav__grupo--perfil.is-atual{background:var(--cream);color:var(--petrol-dark);border-color:var(--cream)}
+.is-rolado .nav__grupo--cheio,.is-rolado .nav__grupo--perfil.is-atual{background:var(--petrol-dark);color:var(--cream);border-color:var(--petrol-dark)}
+
+/* submenu: cartão creme que desce do grupo (a faixa transparente em cima evita fechar no caminho do mouse) */
+.sub{position:absolute;top:100%;left:0;padding-top:12px;min-width:300px;color:var(--petrol-dark);visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity var(--mo-base) var(--ease),transform var(--mo-base) var(--ease),visibility 0s linear var(--mo-base)}
+.sub--dir{left:auto;right:0}
+.sub ul{list-style:none;margin:0;padding:var(--sp-2);background:var(--cream);border:1px solid var(--line);border-radius:var(--radius-md);box-shadow:0 24px 48px -20px rgba(12,35,43,.45)}
+.sub a{display:grid;gap:var(--sp-1);padding:var(--sp-3) var(--sp-4);border-radius:3px;text-decoration:none;color:var(--petrol-dark);transition:background var(--mo-fast) var(--ease)}
+.sub b{font:600 14px/1.3 var(--font-body)}
+.sub span{font-size:var(--fs-small);line-height:1.4;color:var(--text-muted)}
+.nav__grupo.is-aberto>.sub{visibility:visible;opacity:1;transform:none;transition-delay:0s}
+.nav__grupo.is-aberto>.nav__abre svg{transform:rotate(180deg)}
+.sub a:focus-visible,.nav__link:focus-visible,.nav__abre:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
 /* botão do menu (celular) */
-.menu-btn{width:48px;height:48px;border:0;background:transparent;position:relative;cursor:pointer;margin-right:-12px}
-.menu-btn span{position:absolute;left:12px;right:12px;height:1.5px;background:var(--petrol-dark);transition:transform var(--mo-base) var(--ease),top var(--mo-base) var(--ease)}
+.menu-btn{width:48px;height:48px;border:0;background:transparent;position:relative;cursor:pointer;margin-right:-12px;-webkit-tap-highlight-color:transparent}
+.menu-btn span{position:absolute;left:12px;right:12px;height:1.5px;background:currentColor;transition:transform var(--mo-base) var(--ease),top var(--mo-base) var(--ease)}
 .menu-btn span:first-child{top:19px}.menu-btn span:last-child{top:28px}
 .menu-btn[aria-expanded="true"] span:first-child{top:24px;transform:rotate(45deg)}
 .menu-btn[aria-expanded="true"] span:last-child{top:24px;transform:rotate(-45deg)}
 
-/* painel do menu: irmão do header (sem ancestral com transform/filter), tela cheia pela janela */
-.menu-painel{position:fixed;left:0;top:var(--header-h);z-index:49;width:100vw;height:calc(100dvh - var(--header-h));background:var(--cream);padding:var(--sp-6) var(--gutter);display:flex;flex-direction:column;gap:var(--sp-6);overflow-y:auto}
+/* painel do menu (celular): irmão do header (fora do vidro, que muda o "fixed" dos filhos), tela cheia pela janela */
+.menu-painel{position:fixed;left:0;top:var(--header-h);z-index:49;width:100vw;height:calc(100dvh - var(--header-h));background:var(--cream);color:var(--petrol-dark);padding:var(--sp-6) var(--gutter) var(--sp-8);overflow-y:auto}
 .menu-painel[hidden]{display:none}
-.toggle--painel{display:inline-flex;align-self:flex-start}
-.menu-painel__nav{display:flex;flex-direction:column;gap:var(--sp-2)}
-.menu-painel__nav a{font:300 var(--fs-h3)/1.2 var(--font-title);text-decoration:none;padding:var(--sp-2) 0}
-.menu-painel .btn{align-self:flex-start}
+.menu-painel__nav{display:grid;gap:var(--sp-6)}
+.mp__titulo{display:block;font:italic 400 var(--fs-h4)/1.2 var(--font-title);color:var(--petrol-dark);text-decoration:none;padding-bottom:var(--sp-3);border-bottom:1px solid var(--line)}
+.mp.is-atual .mp__titulo::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin-left:var(--sp-3);vertical-align:middle}
+.mp ul{list-style:none;margin:var(--sp-2) 0 0;padding:0}
+.mp ul a{display:flex;align-items:center;min-height:44px;font-size:var(--fs-body);color:var(--text-muted);text-decoration:none}
 
 @media (hover:hover){
-  .site-header__nav a:hover{color:var(--petrol-dark)}
-  .toggle__item:not(.is-on):hover{color:var(--petrol-dark);background:rgba(12,35,43,.05)}
+  .nav__grupo--perfil:not(.nav__grupo--cheio):not(.is-atual):hover{background:var(--cream);color:var(--petrol-dark);border-color:var(--cream)}
+  .is-rolado .nav__grupo--perfil:not(.nav__grupo--cheio):not(.is-atual):hover{background:var(--petrol-dark);color:var(--cream);border-color:var(--petrol-dark)}
+  .nav__link:hover::after{width:100%}
+  .sub a:hover{background:var(--cream-2)}
+  .mp ul a:hover{color:var(--petrol-dark)}
 }
 @media (min-width:900px){
-  .site-header__nav,.toggle{display:flex}
-  .site-header__nav{margin-right:var(--sp-3)}
+  .site-header__nav{display:flex;align-items:center}
   .menu-btn,.menu-painel{display:none!important}
 }
-@media (min-width:1280px){
-  .site-header__cta{display:inline-flex}
-}
+@media (prefers-reduced-motion:reduce){.sub,.nav__link::after,.site-header{transition:none}}
