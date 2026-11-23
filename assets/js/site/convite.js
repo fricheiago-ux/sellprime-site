@@ -14,7 +14,7 @@ document.querySelectorAll('.conv').forEach(conv=>{
      convite.css). Vale nos dois sentidos da rolagem. O título não anima. */
   const cham=conv.querySelector('.conv__chamada');
   if(cham&&!reduz){
-    const anima=()=>cham.style.setProperty('--conv-p',Math.max(0,Math.min(1,(innerHeight-cham.getBoundingClientRect().top)/(innerHeight*.8))).toFixed(3));
+    const anima=()=>cham.style.setProperty('--conv-p',Math.max(0,Math.min(1,(innerHeight*1.05-cham.getBoundingClientRect().top)/(innerHeight*.5))).toFixed(3));
     addEventListener('scroll',anima,{passive:true});addEventListener('resize',anima);anima();
   }
   const itens=[...conv.querySelectorAll('.conv__item')],res=conv.querySelector('.conv__resultado'),painel=conv.querySelector('.conv__painel');
@@ -50,8 +50,8 @@ document.querySelectorAll('.conv__pontos').forEach(stage=>{
   function desenhar(now){if(!W)return;const a=ease(Math.min(1,prog/0.62));ctx.clearRect(0,0,W,H);const t=now*0.001;
     for(const p of parts){const d=(1-a)*16,x=p.sx+(p.tx-p.sx)*a+Math.cos(t+p.ph)*d,y=p.sy+(p.ty-p.sy)*a+Math.sin(t+p.ph)*d;ctx.globalAlpha=0.16+0.84*a;ctx.fillStyle=p.col;ctx.fillRect(x,y,p.s,p.s)}
     ctx.globalAlpha=1}
-  function quadro(now){rodando=false;if(!vis||reduz)return;prog+=(alvo-prog)*0.08;desenhar(now);rodando=true;requestAnimationFrame(quadro)}
-  const medir=()=>{if(reduz)return;const h=innerHeight,r=stage.getBoundingClientRect();alvo=clamp((h*.8-r.top)/(h*.55+r.height))};
+  function quadro(now){rodando=false;if(!vis||reduz)return;prog+=(alvo-prog)*0.12;desenhar(now);rodando=true;requestAnimationFrame(quadro)}
+  const medir=()=>{if(reduz)return;const h=innerHeight,r=stage.getBoundingClientRect();alvo=clamp((h*1.0-r.top)/(h*.35+r.height*.7))};
   addEventListener('scroll',medir,{passive:true});
   new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis){if(!W)build();medir();if(!rodando&&!reduz){rodando=true;requestAnimationFrame(quadro)}}}).observe(stage);
   (document.fonts&&document.fonts.load?document.fonts.load('italic 400 100px Fraunces').catch(()=>{}):Promise.resolve()).then(build);
