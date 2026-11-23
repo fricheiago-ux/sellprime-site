@@ -7,7 +7,8 @@
    Peso: a biblioteca d3 (assets/js/vendor/d3.min.js) e os contornos (assets/data/mapa/) só baixam na primeira
    vez que um mapa aparece. Contornos: API de malhas do IBGE (dados públicos).
    Uso: const m=await SellPrimeMapa.criar(caixa); m.mostrar({uf:'GO',cidades:[{cidade:'Goiânia',uf:'GO',n:2}]})
-   Com direto:true (popup do imóvel) o mapa já abre na cidade, sem o voo, e só o contorno dela acende em dourado. */
+   Com direto:true (popup do imóvel) o mapa abre já no estado e faz só um zoom rápido (0,9 s) até a cidade, com o contorno
+   dela acendendo em dourado, sem o voo Brasil, estado, cidade da busca. */
 (()=>{
 const UF={SP:35,MG:31,DF:53,PR:41,GO:52,RJ:33,BA:29,ES:32,SC:42};
 const NOMEUF={SP:'São Paulo',MG:'Minas Gerais',DF:'Distrito Federal',PR:'Paraná',GO:'Goiás',RJ:'Rio de Janeiro',BA:'Bahia',ES:'Espírito Santo',SC:'Santa Catarina'};
@@ -40,17 +41,44 @@ async function criar(caixa){
   new ResizeObserver(()=>{const t=d3.zoomTransform(svg.node());medir();svg.call(zoom.transform,t)}).observe(caixa);
   function posRotulo(t){if(!alvoRot)return;const[x,y]=t.apply(path.centroid(alvoRot));rot.style.left=x+'px';rot.style.top=y+'px'}
   /* leva a câmera até caber a forma; com temporizador de segurança (se esta transição não terminar, põe a câmera no fim) */
-  const voar=(feat,folga,dur)=>{medir();const[[x0,y0],[x1,y1]]=path.bounds(feat);
+  const enquadra=(feat,folga)=>{medir();const[[x0,y0],[x1,y1]]=path.bounds(feat);
     const k=Math.min(400,folga/Math.max((x1-x0)/W,(y1-y0)/H));
-    const t=d3.zoomIdentity.translate(W/2-k*(x0+x1)/2,H/2-k*(y0+y1)/2).scale(k);
+    return d3.zoomIdentity.translate(W/2-k*(x0+x1)/2,H/2-k*(y0+y1)/2).scale(k)};
+  const voar=(feat,folga,dur,suave=d3.easeCubicInOut)=>{const t=enquadra(feat,folga);
     let acabou=false;
-    const fim=svg.transition().duration(T(dur)).ease(d3.easeCubicInOut).call(zoom.transform,t).end().catch(()=>{}).then(()=>{acabou=true});
+    const fim=svg.transition().duration(T(dur)).ease(suave).call(zoom.transform,t).end().catch(()=>{}).then(()=>{acabou=true});
     const seg=new Promise(r=>setTimeout(()=>{if(!acabou){acabou=true;svg.interrupt();svg.call(zoom.transform,t)}r()},T(dur)+400));
     return Promise.race([fim,seg])};
   const BR={type:'FeatureCollection',features:br.features};
 
+  /* popup do imóvel: abre já no estado (os municípios aparecem de uma vez), faz um zoom rápido (0,9 s) até a cidade
+     e o contorno dela acende em dourado. Sem o voo Brasil, estado, cidade da busca. */
+  async function direto(alvo,vivo){
+    const c=(alvo.cidades||[])[0],uf=c&&c.uf;
+    rot.classList.remove('in','is-fixo');alvoRot=null;
+    if(!c||!UF[uf]||!MUN[c.cidade])return;
+    const ufFeat=br.features.find(f=>+f.properties.codarea===UF[uf]);
+    /* limpa o imóvel anterior já: enquanto o estado não chega (só demora se ainda não foi baixado), aparece o Brasil
+       com o estado destacado, nunca o mapa do imóvel de antes */
+    gMun.selectAll('path').remove();svg.interrupt();medir();svg.call(zoom.transform,d3.zoomIdentity);
+    gUF.selectAll('path').classed('is-ativo',f=>f===ufFeat).classed('is-apagado',f=>f!==ufFeat);etapa.textContent='Brasil';
+    const mun=await estado(uf);if(!vivo())return;
+    const cid=mun.features.find(f=>f.properties.codarea===MUN[c.cidade]);if(!cid)return;
+    gUF.selectAll('path').classed('is-ativo',f=>f===ufFeat).classed('is-apagado',f=>f!==ufFeat);
+    gMun.selectAll('path').remove();
+    svg.interrupt();svg.call(zoom.transform,enquadra(ufFeat,.86)); /* começa mostrando o estado inteiro */
+    const p=gMun.selectAll('path').data(mun.features).join('path').attr('class','mapa__mun in').attr('d',path).classed('is-cidade',f=>f===cid);
+    etapa.textContent=NOMEUF[uf]||uf;
+    await voar(cid,.55,900,d3.easeCubicOut);if(!vivo())return;
+    etapa.textContent=alvo.bairro?alvo.bairro+', '+c.cidade:c.cidade;
+    const el=p.filter(f=>f===cid).node();if(el){el.classList.remove('is-local');void el.getBoundingClientRect();el.classList.add('is-local')}
+    alvoRot=cid;posRotulo(d3.zoomTransform(svg.node()));
+    rot.textContent=alvo.rotulo||(c.cidade+' · '+plural(c.n));rot.classList.add('in');
+  }
+
   async function mostrar(alvo={}){
     const eu=++vez,vivo=()=>eu===vez;
+    if(alvo.direto)return direto(alvo,vivo);
     /* direto (popup do imóvel): sem o voo do Brasil até a cidade; o mapa já abre na cidade e só o contorno dela
        se acende em dourado, numa animação breve (pedido do Iago, 23/11/2026) */
     const D=ms=>alvo.direto?0:ms,pausa=ms=>alvo.direto?Promise.resolve():espera(ms);
@@ -90,5 +118,8 @@ async function criar(caixa){
   }
   return{mostrar};
 }
-window.SellPrimeMapa={criar,UF,NOMEUF};
+/* aquece o que o mapa vai precisar (biblioteca, contorno do Brasil e, se souber, o do estado) sem desenhar nada:
+   chamado quando o mouse chega a um cartão de imóvel e quando o navegador está ocioso, para o popup não esperar download */
+const preparar=uf=>{carregarD3().catch(()=>{});brasil().catch(()=>{});if(uf&&UF[uf])estado(uf).catch(()=>{})};
+window.SellPrimeMapa={criar,preparar,UF,NOMEUF};
 })();

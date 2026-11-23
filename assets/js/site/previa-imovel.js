@@ -2,7 +2,8 @@
    Molde: o painel que já existia na vitrine do proprietário. Ele nasce do cartão clicado e volta para ele ao fechar.
    Conteúdo (pedido do Iago, 22/11/2026): fotos, preço, local, ficha (área, quartos, vagas), o botão
    "Ver página completa", que leva ao login (a página completa só aparece para quem entrou), e o mapa
-   (mapa-busca.js) já aberto na cidade do imóvel, com o contorno acendendo em dourado, no espaço livre abaixo do botão.
+   (mapa-busca.js) abrindo já no estado, com um zoom rápido até a cidade do imóvel e o contorno dela acendendo em dourado,
+   no espaço livre abaixo do botão. O que o mapa precisa é baixado antes (ao passar o mouse no cartão e com o navegador ocioso).
    Uso: SellPrimePrevia.abrir(imovel, elementoDeOrigem, {eyebrow:'Imóvel 03 / 10', alvo:()=>elementoParaVoltar})
    ou, sem JS extra, um botão com data-previa="id-do-imovel" (o clique é ouvido aqui).
    Precisa de imoveis-data.js (base única). Esc, clique fora e o X fecham; o foco fica preso no painel. */
@@ -67,8 +68,7 @@ let mapa=null;
 async function mostrarMapa(d){
   if(!window.SellPrimeMapa)return;
   try{
-    await new Promise(r=>setTimeout(r,reduzir?0:560)); /* depois de o painel terminar de abrir */
-    if(modal.hidden)return;
+    SellPrimeMapa.preparar(d.uf); /* começa a baixar o que falta já, junto com a abertura do painel (sem esperar) */
     if(!mapa)mapa=await SellPrimeMapa.criar(document.getElementById('pv-mapa'));
     mapa.mostrar({direto:true,cidades:[{cidade:d.cidade,uf:d.uf,n:1}],bairro:d.bairro,rotulo:d.bairro+', '+d.cidade});
   }catch(e){document.getElementById('pv-mapa').hidden=true}
@@ -85,6 +85,15 @@ function fechar(){
   anim.onfinish=fim;setTimeout(()=>{if(!modal.hidden)fim()},700); /* segurança, caso o fim da animação não chegue */
 }
 window.SellPrimePrevia={abrir,fechar};
+
+/* o mapa do popup não pode esperar download: aquece biblioteca e contornos antes do clique. Quando o mouse (ou o dedo)
+   chega a um cartão, baixa também o estado daquele imóvel; e, com o navegador ocioso, baixa a biblioteca e o Brasil. */
+const aquecer=e=>{
+  const b=e.target.closest&&e.target.closest('[data-previa]');if(!b||!window.SellPrimeMapa)return;
+  const d=(window.SELLPRIME_IMOVEIS||[]).find(x=>x.id===b.dataset.previa);if(d)SellPrimeMapa.preparar(d.uf)};
+document.addEventListener('pointerover',aquecer,{passive:true});
+document.addEventListener('touchstart',aquecer,{passive:true});
+(window.requestIdleCallback||(f=>setTimeout(f,2500)))(()=>{if(window.SellPrimeMapa)SellPrimeMapa.preparar()},{timeout:5000});
 
 /* botões com data-previa="id" em qualquer página */
 document.addEventListener('click',e=>{
